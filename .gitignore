@@ -1,0 +1,15 @@
+# Ignore MSVC++ binary and object directories
+Debug/
+Release/
+ipch/
+DataPlotter/Debug
+DataPlotter/Release
+
+*.suo
+*.sdf
+*.opensdf
+
+# Ignore GKT directories
+bin/
+.obj/
+/DataPlotter/nbproject/private/
