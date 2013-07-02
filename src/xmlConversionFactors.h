@@ -68,7 +68,8 @@ private:
 	wxXmlDocument *document;
 
 	void ResetForLoad(void);
-	void AddNodePreserveFormatting(wxXmlNode *parent, wxXmlNode *child) const;
+	void AddNodePreserveFormatting(wxXmlNode *parent, wxXmlNode *child, const bool &alphabetize = false) const;
+	bool GetNodeAfterAlphabetically(const wxString &name, wxXmlNode *parent, wxXmlNode *&nodeAfterChild) const;
 
 	static wxXmlNode* GetNewLineNode(void);
 	static wxXmlNode* GetIndentNode(const unsigned int &level);

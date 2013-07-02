@@ -353,7 +353,7 @@ void XMLConversionFactors::AddGroup(const wxString &name)
 	wxXmlNode *node = new wxXmlNode(wxXML_ELEMENT_NODE, groupNode);
 	node->AddProperty(nameAttr, name);
 	node->AddProperty(displayAttr, _T("1"));
-	AddNodePreserveFormatting(document->GetRoot(), node);
+	AddNodePreserveFormatting(document->GetRoot(), node, true);
 }
 
 //==========================================================================
@@ -412,8 +412,9 @@ void XMLConversionFactors::SetGroupVisibility(const wxString &name, const bool &
 //					it appear just like human-entered nodes.
 //
 // Input Arguments:
-//		parent	= wxXmlNode*
-//		child	= wxXmlNode*
+//		parent		= wxXmlNode*
+//		child		= wxXmlNode*
+//		alphabetize	= const bool&
 //
 // Output Arguments:
 //		None
@@ -422,11 +423,20 @@ void XMLConversionFactors::SetGroupVisibility(const wxString &name, const bool &
 //		None
 //
 //==========================================================================
-void XMLConversionFactors::AddNodePreserveFormatting(wxXmlNode *parent, wxXmlNode *child) const
+void XMLConversionFactors::AddNodePreserveFormatting(wxXmlNode *parent, wxXmlNode *child, const bool &alphabetize) const
 {
 	bool needPreceedingNewLine = parent->GetChildren() == NULL;
 
-	parent->AddChild(child);
+	if (alphabetize)
+	{
+		wxXmlNode *nodeAfterChild(NULL);
+		if (GetNodeAfterAlphabetically(child->GetAttribute(nameAttr, wxEmptyString), parent, nodeAfterChild))
+			parent->InsertChild(child, nodeAfterChild);
+		else
+			parent->AddChild(child);
+	}
+	else
+		parent->AddChild(child);
 
 	if (needPreceedingNewLine)
 		parent->InsertChild(GetNewLineNode(), child);
@@ -435,10 +445,60 @@ void XMLConversionFactors::AddNodePreserveFormatting(wxXmlNode *parent, wxXmlNod
 	// TODO:  If preceeding node is not a newline (or is whitespace?), adjust depth
 	/*if ()
 		depth--;*/
+	// TODO:  The alphabetizing of groups makes the whitespace a little screwy, too
 
 	parent->InsertChild(GetIndentNode(depth), child);
 	parent->InsertChildAfter(GetIndentNode(depth - 1), child);
 	parent->InsertChildAfter(GetNewLineNode(), child);
+}
+
+//==========================================================================
+// Class:			XMLConversionFactors
+// Function:		GetNodeAfterAlphabetically
+//
+// Description:		Finds the node following the node to be added in order to
+//					maintain alphabetical entry of nodes.
+//
+// Input Arguments:
+//		name			= const wxString&
+//		parent			= wxXmlNode*
+//
+// Output Arguments:
+//		nodeAfterChild	= wxXmlNode*&
+//
+// Return Value:
+//		bool, true if a following node was found OR the child will be the first
+//		child for the parent (in the case of this node being the first child,
+//		nodeAfterChild will be NULL), false if no following node was found
+//		(indicating that the new node should be appended to the end of the
+//		parent's children)
+//
+//==========================================================================
+bool XMLConversionFactors::GetNodeAfterAlphabetically(const wxString &name,
+	wxXmlNode *parent, wxXmlNode *&nodeAfterChild) const
+{
+	bool hasChildren = false;
+	wxXmlNode *child = parent->GetChildren();
+	while (child)
+	{
+		hasChildren = true;
+
+		if (name.CmpNoCase(child->GetAttribute(nameAttr, wxEmptyString)) < 0)
+		{
+			nodeAfterChild = child;
+			return true;
+		}
+
+		child = child->GetNext();
+	}
+
+	if (!hasChildren)
+	{
+		nodeAfterChild = NULL;
+		return true;
+	}
+
+	return false;
 }
 
 //==========================================================================

@@ -212,11 +212,13 @@ void OptionsDialog::OnNewGroup(wxCommandEvent& event)
 		}
 	}
 
-	groupList->Append(groupName);
-	groupList->Check(groupList->GetCount() - 1);
+	// Insert group alphabetically
+	unsigned int newIndex = GetAlphabeticIndex(groupName);
+	groupList->Insert(groupName, newIndex);
+	groupList->Check(newIndex);
 	newGroups.push_back(groupName);
 
-	groupList->SetSelection(groupList->GetCount() - 1);
+	groupList->SetSelection(newIndex);
 	UpdateUnitList();
 
 	OnNewUnit(event);
@@ -252,7 +254,7 @@ void OptionsDialog::OnNewUnit(wxCommandEvent& WXUNUSED(event))
 	XMLConversionFactors::Equivalence equiv;
 	equiv.aUnit = dialog.GetUnitName();
 	equiv.bUnit = dialog.GetEquivalentUnitName();
-	equiv.equation = _T("a=b/") + dialog.GetConversionFactor();
+	equiv.equation = _T("a=b") + dialog.GetConversionFactor();
 	newUnits.push_back(std::make_pair(groupName, equiv));
 }
 
@@ -435,6 +437,35 @@ wxArrayString OptionsDialog::GetNewUnits(const wxString &groupName) const
 }
 
 //==========================================================================
+// Class:			OptionsDialog
+// Function:		GetAlphabeticIndex
+//
+// Description:		Returns the index where the group should be inserted in
+//					order to maintain alphabetic order.
+//
+// Input Arguments:
+//		groupName	= const wxString&
+//
+// Output Arguments:
+//		None
+//
+// Return Value:
+//		unsigned int
+//
+//==========================================================================
+unsigned int OptionsDialog::GetAlphabeticIndex(const wxString &groupName) const
+{
+	unsigned int i;
+	for (i = 0; i < groupList->GetCount(); i++)
+	{
+		if (groupName.CmpNoCase(groupList->GetString(i)) < 0)
+			return i;
+	}
+
+	return groupList->GetCount();
+}
+
+//==========================================================================
 // Class:			AddUnitDialog
 // Function:		AddUnitDialog
 //
@@ -456,6 +487,7 @@ OptionsDialog::AddUnitDialog::AddUnitDialog(wxWindow *parent, const wxString &gr
 	const wxArrayString &unitList)
 	: wxDialog(parent, wxID_ANY, _T("Add ") + groupName + _T(" Unit"))
 {
+	// TODO:  Allow editing units by passing existing unit info into constructor
 	CreateControls(unitList);
 	CenterOnParent();
 }
@@ -485,18 +517,19 @@ void OptionsDialog::AddUnitDialog::CreateControls(const wxArrayString &unitList)
 	wxSizer *inputSizer = new wxBoxSizer(wxHORIZONTAL);
 	mainSizer->Add(inputSizer);
 
+	aQtyText = new wxTextCtrl(this, wxID_ANY, _T("1"));
 	unit = new wxTextCtrl(this, idUnit);
-	conversionFactor = new wxTextCtrl(this, wxID_ANY, _T("1"));
+	bQtyText = new wxTextCtrl(this, wxID_ANY, _T("1"));
 	if (unitList.Count() == 0)
 		equivalentUnit = new wxComboBox(this, idEquivUnit, wxEmptyString, wxDefaultPosition, wxDefaultSize, unitList, wxCB_DROPDOWN);
 	else
 		equivalentUnit = new wxComboBox(this, wxID_ANY, unitList[0], wxDefaultPosition, wxDefaultSize, unitList, wxCB_READONLY);
 
 	int padding(5);
-	inputSizer->Add(new wxStaticText(this, wxID_ANY, _T("One")), 0, wxALL, padding);
+	inputSizer->Add(aQtyText, 0, wxALL, padding);
 	inputSizer->Add(unit, 0, wxALL, padding);
 	inputSizer->Add(new wxStaticText(this, wxID_ANY, _T("is equal to")), 0, wxALL, padding);
-	inputSizer->Add(conversionFactor, 0, wxALL, padding);
+	inputSizer->Add(bQtyText, 0, wxALL, padding);
 	inputSizer->Add(equivalentUnit, 0, wxALL, padding);
 
 	wxSizer *powerSizer = new wxGridSizer(6, 5, 5);
@@ -528,8 +561,8 @@ void OptionsDialog::AddUnitDialog::CreateControls(const wxArrayString &unitList)
 		mainSizer->Add(buttons, 0, wxGROW);
 	}
 
-	unit->SetFocus();
-	focusedControl = idUnit;
+	aQtyText->SetFocus();
+	focusedControl = idAny;
 	cursorPosition = 0;
 
 	SetSizerAndFit(topSizer);
@@ -552,19 +585,19 @@ void OptionsDialog::AddUnitDialog::CreateControls(const wxArrayString &unitList)
 //
 //==========================================================================
 BEGIN_EVENT_TABLE(OptionsDialog::AddUnitDialog, wxDialog)
-	EVT_BUTTON(idZeroth,	OptionsDialog::AddUnitDialog::OnButton)
-	EVT_BUTTON(idFirst,		OptionsDialog::AddUnitDialog::OnButton)
-	EVT_BUTTON(idSecond,	OptionsDialog::AddUnitDialog::OnButton)
-	EVT_BUTTON(idThird,		OptionsDialog::AddUnitDialog::OnButton)
-	EVT_BUTTON(idFourth,	OptionsDialog::AddUnitDialog::OnButton)
-	EVT_BUTTON(idFifth,		OptionsDialog::AddUnitDialog::OnButton)
-	EVT_BUTTON(idSixth,		OptionsDialog::AddUnitDialog::OnButton)
-	EVT_BUTTON(idSeventh,	OptionsDialog::AddUnitDialog::OnButton)
-	EVT_BUTTON(idEigth,		OptionsDialog::AddUnitDialog::OnButton)
-	EVT_BUTTON(idNinth,		OptionsDialog::AddUnitDialog::OnButton)
-	EVT_BUTTON(idNegative,	OptionsDialog::AddUnitDialog::OnButton)
-	EVT_TEXT(idUnit,		OptionsDialog::AddUnitDialog::OnTextChange)
-	EVT_TEXT(idEquivUnit,	OptionsDialog::AddUnitDialog::OnTextChange)
+	EVT_BUTTON(idZeroth,		OptionsDialog::AddUnitDialog::OnButton)
+	EVT_BUTTON(idFirst,			OptionsDialog::AddUnitDialog::OnButton)
+	EVT_BUTTON(idSecond,		OptionsDialog::AddUnitDialog::OnButton)
+	EVT_BUTTON(idThird,			OptionsDialog::AddUnitDialog::OnButton)
+	EVT_BUTTON(idFourth,		OptionsDialog::AddUnitDialog::OnButton)
+	EVT_BUTTON(idFifth,			OptionsDialog::AddUnitDialog::OnButton)
+	EVT_BUTTON(idSixth,			OptionsDialog::AddUnitDialog::OnButton)
+	EVT_BUTTON(idSeventh,		OptionsDialog::AddUnitDialog::OnButton)
+	EVT_BUTTON(idEigth,			OptionsDialog::AddUnitDialog::OnButton)
+	EVT_BUTTON(idNinth,			OptionsDialog::AddUnitDialog::OnButton)
+	EVT_BUTTON(idNegative,		OptionsDialog::AddUnitDialog::OnButton)
+	EVT_TEXT(idUnit,			OptionsDialog::AddUnitDialog::OnTextChange)
+	EVT_TEXT(idEquivUnit,		OptionsDialog::AddUnitDialog::OnTextChange)
 END_EVENT_TABLE();
 
 //==========================================================================
@@ -585,6 +618,14 @@ END_EVENT_TABLE();
 //==========================================================================
 void OptionsDialog::AddUnitDialog::OnButton(wxCommandEvent &event)
 {
+	wxString value;
+	if (focusedControl == idUnit)
+		value = unit->GetValue();
+	else if (focusedControl == idEquivUnit)
+		value = equivalentUnit->GetValue();
+	else
+		return;
+
 	wxString power;
 	switch (event.GetId())
 	{
@@ -638,12 +679,6 @@ void OptionsDialog::AddUnitDialog::OnButton(wxCommandEvent &event)
 		assert(false);
 	}
 
-	wxString value;
-	if (focusedControl == idUnit)
-		value = unit->GetValue();
-	else
-		value = equivalentUnit->GetValue();
-
 	value.insert(cursorPosition, power);
 	cursorPosition++;
 
@@ -687,7 +722,7 @@ void OptionsDialog::AddUnitDialog::OnTextChange(wxCommandEvent &event)
 		wxTextCtrl *box = static_cast<wxTextCtrl*>(FindWindow(focusedControl));
 		cursorPosition = box->GetInsertionPoint();
 	}
-	else
+	else if (focusedControl == idEquivUnit)
 	{
 		wxComboBox *box = static_cast<wxComboBox*>(FindWindow(focusedControl));
 		cursorPosition = box->GetInsertionPoint();
@@ -733,7 +768,14 @@ wxString OptionsDialog::AddUnitDialog::GetUnitName(void) const
 //==========================================================================
 wxString OptionsDialog::AddUnitDialog::GetConversionFactor(void) const
 {
-	return conversionFactor->GetValue();
+	wxString factor(wxEmptyString);
+	if (aQtyText->GetValue().Cmp(_T("1")) != 0)
+		factor.Append(_T("*")).Append(aQtyText->GetValue());
+		
+	if (bQtyText->GetValue().Cmp(_T("1")) != 0)
+		factor.Append(_T("/")).Append(bQtyText->GetValue());
+
+	return factor;
 }
 
 //==========================================================================
@@ -788,7 +830,7 @@ bool OptionsDialog::AddUnitDialog::TransferDataFromWindow(void)
 	}
 
 	double factor;
-	if (!conversionFactor->GetValue().ToDouble(&factor))
+	if (!aQtyText->GetValue().ToDouble(&factor) || !bQtyText->GetValue().ToDouble(&factor))
 	{
 		wxMessageBox(_T("Could not convert conversion factor to value!"), _T("Error"), wxICON_ERROR, this);
 		return false;

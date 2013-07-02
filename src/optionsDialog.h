@@ -58,6 +58,8 @@ private:
 	wxArrayString GetCompleteUnitList(const wxString &groupName) const;
 	wxArrayString GetNewUnits(const wxString &groupName) const;
 
+	unsigned int GetAlphabeticIndex(const wxString &groupName) const;
+
 	std::vector<wxString> newGroups;
 	std::vector<std::pair<wxString, XMLConversionFactors::Equivalence> > newUnits;
 
@@ -77,11 +79,12 @@ private:
 		void CreateControls(const wxArrayString &unitList);
 
 		wxTextCtrl *unit;
-		wxTextCtrl *conversionFactor;
+		wxTextCtrl *aQtyText, *bQtyText;
 		wxComboBox *equivalentUnit;
 
 		enum ControlIds
 		{
+			idAny = wxID_ANY,
 			idZeroth = wxID_HIGHEST + 200,
 			idFirst,
 			idSecond,

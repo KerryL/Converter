@@ -501,9 +501,15 @@ void MainFrame::LoadConfiguration(void)
 		if (config->HasGroup(_T("/Tabs/") + tabText))
 		{
 			if (config->Read(_T("/Tabs/") + tabText + _T("/Input"), &selection))
-				static_cast<wxListBox*>(page->FindWindow(idInput))->SetSelection(selection);
+			{
+				if ((unsigned long)selection < static_cast<wxListBox*>(page->FindWindow(idInput))->GetCount())
+					static_cast<wxListBox*>(page->FindWindow(idInput))->SetSelection(selection);
+			}
 			if (config->Read(_T("/Tabs/") + tabText + _T("/Output"), &selection))
-				static_cast<wxListBox*>(page->FindWindow(idOutput))->SetSelection(selection);
+			{
+				if ((unsigned long)selection < static_cast<wxListBox*>(page->FindWindow(idOutput))->GetCount())
+					static_cast<wxListBox*>(page->FindWindow(idOutput))->SetSelection(selection);
+			}
 		}
 
 		if (tabText.Cmp(selectedTab) == 0)
