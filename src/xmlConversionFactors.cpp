@@ -381,6 +381,47 @@ void XMLConversionFactors::AddEquivalence(const wxString &name, const Equivalenc
 
 //==========================================================================
 // Class:			XMLConversionFactors
+// Function:		ChangeEquivalence
+//
+// Description:		Changes an existing equivalence.
+//
+// Input Arguments:
+//		name	= const wxString& specifying the group
+//		e		= const Equivalence&
+//
+// Output Arguments:
+//		None
+//
+// Return Value:
+//		None
+//
+//==========================================================================
+void XMLConversionFactors::ChangeEquivalence(const wxString &name, const Equivalence &e)
+{
+	wxXmlNode *groupNode = GetGroupNode(name);
+	wxXmlNode *equiv = groupNode->GetChildren();
+
+	wxString aName, bName;
+	while (equiv)
+	{
+		if (equiv->GetPropVal(aUnitAttr, &aName) &&
+			equiv->GetPropVal(bUnitAttr, &bName) &&
+			aName.Cmp(e.aUnit) == 0 &&
+			bName.Cmp(e.bUnit) == 0)
+		{
+			equiv->DeleteProperty(equationAttr);
+			equiv->AddProperty(equationAttr, e.equation);
+			return;
+		}
+
+		equiv = equiv->GetNext();
+	}
+
+	assert(false);// Didn't find a match!
+}
+
+//==========================================================================
+// Class:			XMLConversionFactors
 // Function:		SetGroupVisibility
 //
 // Description:		Sets the visibility attribute for the specified group.

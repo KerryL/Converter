@@ -39,7 +39,7 @@ IMPLEMENT_APP(ConverterApp);
 const wxString ConverterApp::title = _T("Converter");
 const wxString ConverterApp::name = _T("ConverterApplication");
 const wxString ConverterApp::creator = _T("Kerry Loux");
-const wxString ConverterApp::versionString = _T("v1.0");
+const wxString ConverterApp::versionString = _T("v1.1");
 
 //==========================================================================
 // Class:			ConverterApp

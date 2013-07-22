@@ -44,12 +44,20 @@ private:
 	{
 		idNewGroup = wxID_HIGHEST + 100,
 		idNewUnit,
-		idGroups
+		idGroups,
+		idUnits
+	};
+
+	enum ErrorCodes
+	{
+		errorHasErrors,
+		errorTooComplicated
 	};
 
 	void OnNewGroup(wxCommandEvent &event);
 	void OnNewUnit(wxCommandEvent &event);
 	void OnSelectedGroupChange(wxCommandEvent &event);
+	void OnUnitDoubleClick(wxCommandEvent &event);
 
 	virtual bool TransferDataFromWindow(void);
 
@@ -62,6 +70,10 @@ private:
 
 	std::vector<wxString> newGroups;
 	std::vector<std::pair<wxString, XMLConversionFactors::Equivalence> > newUnits;
+	std::vector<std::pair<wxString, XMLConversionFactors::Equivalence> > changedUnits;
+
+	XMLConversionFactors::Equivalence GetUnitInfo(const wxString &groupName,
+		const wxString &unitName) const;
 
 	DECLARE_EVENT_TABLE();
 
@@ -70,6 +82,8 @@ private:
 	public:
 		AddUnitDialog(wxWindow *parent, const wxString &groupName,
 			const wxArrayString &unitList);
+		AddUnitDialog(wxWindow *parent, const wxString &groupName,
+			const wxArrayString &unitList, const XMLConversionFactors::Equivalence &unitInfo);
 
 		wxString GetUnitName(void) const;
 		wxString GetConversionFactor(void) const;
@@ -81,6 +95,14 @@ private:
 		wxTextCtrl *unit;
 		wxTextCtrl *aQtyText, *bQtyText;
 		wxComboBox *equivalentUnit;
+		const bool isUnitUpdate;
+
+		void SetQuantitiesFromRelationshipString(const wxString &relationship);
+		bool RelationshipHasErrors(const wxString &relationship) const;
+		bool RelationshipIsTooComplicated(const wxString &relationship) const;
+		wxChar ParseEquationHalf(const wxString &half, std::vector<wxString> &same,
+			std::vector<wxString> &opp) const;
+		wxString MultiplyTerms(const std::vector<wxString> &terms) const;
 
 		enum ControlIds
 		{

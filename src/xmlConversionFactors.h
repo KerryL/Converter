@@ -61,6 +61,7 @@ public:
 
 	void AddGroup(const wxString &name);
 	void AddEquivalence(const wxString &name, const Equivalence &e);
+	void ChangeEquivalence(const wxString &name, const Equivalence &e);
 	void SetGroupVisibility(const wxString &name, const bool &visible);
 
 private:

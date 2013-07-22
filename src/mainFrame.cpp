@@ -108,6 +108,7 @@ BEGIN_EVENT_TABLE(MainFrame, wxFrame)
 	EVT_LISTBOX(wxID_ANY,				MainFrame::OnSelectionChangeEvent)
 	EVT_BUTTON(idClipboard,				MainFrame::OnClipboardButton)
 	EVT_BUTTON(idOptions,				MainFrame::OnOptionsButton)
+	EVT_BUTTON(idSwap,					MainFrame::OnSwapButton)
 	EVT_CLOSE(							MainFrame::OnClose)
 END_EVENT_TABLE();
 
@@ -141,7 +142,12 @@ void MainFrame::CreateControls(void)
 	mainSizer->Add(notebook, 1, wxGROW | wxALL, 5);
 
 	const int spacing(5);
+	wxBoxSizer *topLowerSizer = new wxBoxSizer(wxHORIZONTAL);
+	wxButton *swapButton = new wxButton(mainPanel, idSwap, _T("Swap"), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
+	topLowerSizer->Add(swapButton, 0, wxRIGHT | wxGROW, spacing);
+
 	wxFlexGridSizer *lowerSizer = new wxFlexGridSizer(4, spacing, spacing);
+	topLowerSizer->Add(lowerSizer, 1, wxALL | wxGROW);
 
 	int textBoxWidth(120);
 	lowerSizer->Add(new wxStaticText(mainPanel, wxID_ANY, _T("Input:")));
@@ -153,13 +159,15 @@ void MainFrame::CreateControls(void)
 
 	lowerSizer->Add(new wxStaticText(mainPanel, wxID_ANY, _T("Output:")));
 	output = new wxTextCtrl(mainPanel, wxID_ANY, _T("1"), wxDefaultPosition, wxSize(textBoxWidth, -1), wxTE_READONLY);
+	//output->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));// This is the right color under MSW, not sure if it's necessary, though
 	outUnits = new wxStaticText(mainPanel, wxID_ANY, wxEmptyString);
 	lowerSizer->Add(output, 1);
 	lowerSizer->Add(outUnits);
 	lowerSizer->Add(new wxButton(mainPanel, idClipboard, _T("Clipboard")), 0, wxALIGN_RIGHT);
 	lowerSizer->AddGrowableCol(3);
 
-	mainSizer->Add(lowerSizer, 0, wxALL | wxGROW, 5);
+	mainSizer->Add(topLowerSizer, 0, wxALL | wxGROW, spacing);
+
 	SetSizerAndFit(topSizer);
 }
 
@@ -347,6 +355,36 @@ void MainFrame::OnClipboardButton(wxCommandEvent& WXUNUSED(event))
 
 //==========================================================================
 // Class:			MainFrame
+// Function:		OnSwapButton
+//
+// Description:		Handles swap button click events.
+//
+// Input Arguments:
+//		event	= wxCommandEvent&
+//
+// Output Arguments:
+//		None
+//
+// Return Value:
+//		None
+//
+//==========================================================================
+void MainFrame::OnSwapButton(wxCommandEvent& WXUNUSED(event))
+{
+	wxListBox *in = GetInputUnitsBox();
+	wxListBox *out = GetOutputUnitsBox();
+
+	unsigned int inputSelection = in->GetSelection();
+	in->SetSelection(out->GetSelection());
+	out->SetSelection(inputSelection);
+
+	input->ChangeValue(output->GetValue());
+
+	UpdateConversion();
+}
+
+//==========================================================================
+// Class:			MainFrame
 // Function:		OnClose
 //
 // Description:		Handles window close events.
@@ -399,12 +437,12 @@ void MainFrame::UpdateConversion(void)
 		}
 	}
 
-	wxListBox *box = static_cast<wxListBox*>(notebook->GetCurrentPage()->FindWindow(idInput));
+	wxListBox *box = GetInputUnitsBox();
 	if (!box || box->GetSelection() < 0)
 		return;
 	inUnit = box->GetString(box->GetSelection());
 
-	box = static_cast<wxListBox*>(notebook->GetCurrentPage()->FindWindow(idOutput));
+	box = GetOutputUnitsBox();
 	if (!box || box->GetSelection() < 0)
 		return;
 	outUnit = box->GetString(box->GetSelection());
@@ -428,6 +466,83 @@ void MainFrame::UpdateConversion(void)
 		output->ChangeValue(wxString::Format(_T("%f"), outValue));
 		/*output->ChangeValue(wxString::Format(_T("%0.*f"),
 		std::max<int>(0, ConvertMath::CountSignificantDigits(input->GetValue()) - orderOfMagnitude - 1), outValue));*/
+}
+
+//==========================================================================
+// Class:			MainFrame
+// Function:		GetInputUnitsBox
+//
+// Description:		Gets the input unit list box for the current tab.
+//
+// Input Arguments:
+//		None
+//
+// Output Arguments:
+//		None
+//
+// Return Value:
+//		wxListBox*
+//
+//==========================================================================
+wxListBox* MainFrame::GetInputUnitsBox(void) const
+{
+	return static_cast<wxListBox*>(GetControlOnActiveTab(idInput));
+}
+
+//==========================================================================
+// Class:			MainFrame
+// Function:		GetOutputUnitsBox
+//
+// Description:		Gets the output unit list box for the current tab.
+//
+// Input Arguments:
+//		None
+//
+// Output Arguments:
+//		None
+//
+// Return Value:
+//		wxListBox*
+//
+//==========================================================================
+wxListBox* MainFrame::GetOutputUnitsBox(void) const
+{
+	return static_cast<wxListBox*>(GetControlOnActiveTab(idOutput));
+}
+
+//==========================================================================
+// Class:			MainFrame
+// Function:		GetControlOnActiveTab
+//
+// Description:		Gets the specified control for the current tab.
+//
+// Input Arguments:
+//		None
+//
+// Output Arguments:
+//		None
+//
+// Return Value:
+//		wxWindow*
+//
+//==========================================================================
+wxWindow* MainFrame::GetControlOnActiveTab(int id) const
+{
+	if (notebook->GetPageCount() == 0)
+		return NULL;
+
+	unsigned int i;
+	wxString groupName;
+	for (i = 0; i < notebook->GetPageCount(); i++)
+	{
+		if (notebook->GetCurrentPage() == notebook->GetPage(i))
+		{
+			groupName = notebook->GetPageText(i);
+			break;
+		}
+	}
+
+	return notebook->GetCurrentPage()->FindWindow(id);
 }
 
 //==========================================================================

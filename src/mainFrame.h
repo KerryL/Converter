@@ -49,12 +49,17 @@ private:
 	wxStaticText *inUnits;
 	wxStaticText *outUnits;
 
+	wxListBox *GetInputUnitsBox(void) const;
+	wxListBox *GetOutputUnitsBox(void) const;
+	wxWindow *GetControlOnActiveTab(int id) const;
+
 	enum ControlID
 	{
 		idInput = wxID_HIGHEST + 1,
 		idOutput,
 		idOptions,
-		idClipboard
+		idClipboard,
+		idSwap
 	};
 
 	void OnTextChangeEvent(wxCommandEvent &event);
@@ -62,6 +67,7 @@ private:
 	void OnTabChangeEvent(wxNotebookEvent &event);
 	void OnOptionsButton(wxCommandEvent &event);
 	void OnClipboardButton(wxCommandEvent &event);
+	void OnSwapButton(wxCommandEvent &event);
 	void OnClose(wxCloseEvent &event);
 
 	void UpdateConversion(void);
