@@ -15,22 +15,22 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\converterApp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\mainFrame.h">
+    <ClInclude Include="..\src\converter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\xmlConversionFactors.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\converter.h">
+    <ClInclude Include="..\src\converterApp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\convertMath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\expressionTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\convertMath.h">
+    <ClInclude Include="..\src\mainFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\optionsDialog.h">

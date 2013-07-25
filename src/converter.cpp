@@ -2,8 +2,7 @@
                                        Converter
                               Copyright Kerry R. Loux 2013
 
-     No requirement for distribution of wxWidgets libraries, source, or binaries.
-                             (http://www.wxwidgets.org/)
+  This code is licensed under the MIT License (http://opensource.org/licenses/MIT).
 
 ===================================================================================*/
 
@@ -11,7 +10,6 @@
 // Created:  6/3/2013
 // Author:  K. Loux
 // Description:  Object for performing conversions.
-// History:
 
 // Standard C++ headers
 #include <queue>
