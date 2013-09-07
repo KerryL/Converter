@@ -9,10 +9,6 @@
       <df name="bin">
       </df>
       <df name="Converter">
-        <df name="Debug">
-        </df>
-        <df name="Release">
-        </df>
       </df>
       <df name="Debug">
       </df>
