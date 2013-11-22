@@ -12,3 +12,5 @@ Converter was inspired by Josh Madison's Convert application (http://joshmadison
 Currently, the expression parser is very weak and only works on simple conversion definitions (good enough for all conversions I've come across so far, including temperature conversion), but there is definitely some room for improvement there.
 
 Feedback is welcome!  Please log bugs and suggestions using GitHub's issue tracker.
+
+[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/0fd4886340510dbe655700f724e6a41f "githalytics.com")](http://githalytics.com/KerryL/Converter)
