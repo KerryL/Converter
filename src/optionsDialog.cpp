@@ -302,14 +302,17 @@ void OptionsDialog::OnUnitDoubleClick(wxCommandEvent& WXUNUSED(event))
 	XMLConversionFactors::Equivalence unitInfo = GetUnitInfo(groupList->GetString(
 		groupList->GetSelection()), unitList->GetString(unitList->GetSelection()));
 	wxString groupName = groupList->GetString(groupList->GetSelection());
-	AddUnitDialog dialog(this, groupName, GetCompleteUnitList(groupName), unitInfo);
+	wxString newConversion;
 
 	try
 	{
+		AddUnitDialog dialog(this, groupName, GetCompleteUnitList(groupName), unitInfo);
 		if (dialog.ShowModal() != wxID_OK)
 			return;
+
+		newConversion = _T("a=b") + dialog.GetConversionFactor();
 	}
-	catch (int e)
+	catch (ErrorCodes e)
 	{
 		if (e == errorHasErrors)
 			wxMessageBox(_T("Expression contains errors.  This must be corrected by opening the XML definitions direclty."),
@@ -330,7 +333,6 @@ void OptionsDialog::OnUnitDoubleClick(wxCommandEvent& WXUNUSED(event))
 	}
 
 	// Upon return, update values if necessary
-	wxString newConversion = _T("a=b") + dialog.GetConversionFactor();
 	if (newConversion.Cmp(unitInfo.equation) != 0)
 	{
 		// Handle differently depending on whether or not the unit is already in the XML document
@@ -1024,7 +1026,7 @@ bool OptionsDialog::AddUnitDialog::RelationshipIsTooComplicated(const wxString &
 		}
 	}
 
-	if (relationship.Contains(_T("+")))
+	if (relationship.Contains(_T("-")))
 	{
 		unsigned int minus((unsigned int)-1);
 		while (minus = relationship.find(_T("-"), minus + 1), minus != wxNOT_FOUND)
