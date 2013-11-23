@@ -142,7 +142,11 @@ unsigned int ConvertMath::GetPrecision(const double &value,
 //		None
 //
 //==========================================================================
+#ifdef __WXMSW__
 void ConvertMath::KRLsprintf(char *dest, const unsigned int &size, const char *format, ...)
+#else
+void ConvertMath::KRLsprintf(char *dest, const unsigned int &, const char *format, ...)
+#endif
 {
 	va_list list;
 	va_start(list, format);

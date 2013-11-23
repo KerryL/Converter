@@ -1018,7 +1018,7 @@ bool OptionsDialog::AddUnitDialog::RelationshipIsTooComplicated(const wxString &
 
 	if (relationship.Contains(_T("+")))
 	{
-		unsigned int plus((unsigned int)-1);
+		int plus((unsigned int)-1);
 		while (plus = relationship.find(_T("+"), plus + 1), plus != wxNOT_FOUND)
 		{
 			if (plus > 0 && relationship.Mid(plus - 1, 1).CmpNoCase(_T("e")) != 0)
@@ -1028,7 +1028,7 @@ bool OptionsDialog::AddUnitDialog::RelationshipIsTooComplicated(const wxString &
 
 	if (relationship.Contains(_T("-")))
 	{
-		unsigned int minus((unsigned int)-1);
+		int minus((unsigned int)-1);
 		while (minus = relationship.find(_T("-"), minus + 1), minus != wxNOT_FOUND)
 		{
 			if (minus > 0 && relationship.Mid(minus - 1, 1).CmpNoCase(_T("e")) != 0)

@@ -42,7 +42,7 @@ AR = ar rcs
 RANLIB = ranlib
 
 # Compiler flags
-CFLAGS = -g -Wall $(INCDIRS) `wx-config --cppflags` -std=c++0x
+CFLAGS = -g -Wall -Wextra -Werror $(INCDIRS) `wx-config --cppflags` -std=c++0x
 
 # Linker flags
 LDFLAGS = $(LIBDIRS) $(LIBS) `wx-config --libs`
