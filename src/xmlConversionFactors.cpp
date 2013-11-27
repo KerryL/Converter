@@ -21,6 +21,11 @@
 // Local headers
 #include "xmlConversionFactors.h"
 
+// To maintain support for wxWidgets versions < 2.9
+#if wxVERSION_NUMBER <= 20812
+#define DeleteAttribute DeleteProperty
+#endif
+
 //==========================================================================
 // Class:			XMLConversionFactors
 // Function:		Constant Definitions
@@ -107,7 +112,7 @@ bool XMLConversionFactors::Load(void)
 {
 	ResetForLoad();
 
-	if (!document->Load(fileName, _T("UTF-8"), wxXMLDOC_KEEP_WHITESPACE_NODES))
+	if (!document->Load(fileName, _T("ISO-8859-1"), wxXMLDOC_KEEP_WHITESPACE_NODES))
 		return false;// Error message generated in wx call - don't create additional message
 
 	if (document->GetRoot()->GetName().Cmp(rootName) != 0)

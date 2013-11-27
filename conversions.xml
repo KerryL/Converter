@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+ï»¿<?xml version="1.0" encoding="ISO-8859-1"?>
 <CONVERSIONS VERSION="1">
   <GROUP NAME="Acceleration" DISPLAY="1">
     <EQUIV A_UNIT="centimeter/sec²" B_UNIT="foot/sec²" RELATION="a=b/0.0328083"/>
