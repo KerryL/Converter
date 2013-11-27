@@ -158,13 +158,13 @@ bool XMLConversionFactors::Load(void)
 bool XMLConversionFactors::ReadGroupNode(wxXmlNode *node)
 {
 	FactorGroup newGroup;
-	if (!node->GetPropVal(nameAttr, &newGroup.name))
+	if (!node->GetAttribute(nameAttr, &newGroup.name))
 	{
 		DoErrorMessage(_T("Cannot read '") + nameAttr + _T("' attribute for '") + groupNode + _T("' node"));
 		return false;
 	}
 
-	newGroup.display = node->GetPropVal(displayAttr, _T("1")).Cmp(_T("1")) == 0;
+	newGroup.display = node->GetAttribute(displayAttr, _T("1")).Cmp(_T("1")) == 0;
 
 	wxXmlNode *child = node->GetChildren();
 	while (child)
@@ -213,19 +213,19 @@ bool XMLConversionFactors::ReadGroupNode(wxXmlNode *node)
 //==========================================================================
 bool XMLConversionFactors::ReadEquivNode(wxXmlNode *node, Equivalence &equiv)
 {
-	if (!node->GetPropVal(aUnitAttr, &equiv.aUnit))
+	if (!node->GetAttribute(aUnitAttr, &equiv.aUnit))
 	{
 		DoErrorMessage(_T("Cannot read '") + aUnitAttr + _T("' property from '") + equivNode + _T("' node"));
 		return false;
 	}
 
-	if (!node->GetPropVal(bUnitAttr, &equiv.bUnit))
+	if (!node->GetAttribute(bUnitAttr, &equiv.bUnit))
 	{
 		DoErrorMessage(_T("Cannot read '") + bUnitAttr + _T("' property from '") + equivNode + _T("' node"));
 		return false;
 	}
 
-	if (!node->GetPropVal(equationAttr, &equiv.equation))
+	if (!node->GetAttribute(equationAttr, &equiv.equation))
 	{
 		DoErrorMessage(_T("Cannot read '") + equationAttr + _T("' property from '") + equivNode + _T("' node"));
 		return false;
@@ -350,8 +350,8 @@ void XMLConversionFactors::DoErrorMessage(const wxString &message) const
 void XMLConversionFactors::AddGroup(const wxString &name)
 {
 	wxXmlNode *node = new wxXmlNode(wxXML_ELEMENT_NODE, groupNode);
-	node->AddProperty(nameAttr, name);
-	node->AddProperty(displayAttr, _T("1"));
+	node->AddAttribute(nameAttr, name);
+	node->AddAttribute(displayAttr, _T("1"));
 	AddNodePreserveFormatting(document->GetRoot(), node, true);
 }
 
@@ -403,13 +403,13 @@ void XMLConversionFactors::ChangeEquivalence(const wxString &name, const Equival
 	wxString aName, bName;
 	while (equiv)
 	{
-		if (equiv->GetPropVal(aUnitAttr, &aName) &&
-			equiv->GetPropVal(bUnitAttr, &bName) &&
+		if (equiv->GetAttribute(aUnitAttr, &aName) &&
+			equiv->GetAttribute(bUnitAttr, &bName) &&
 			aName.Cmp(e.aUnit) == 0 &&
 			bName.Cmp(e.bUnit) == 0)
 		{
-			equiv->DeleteProperty(equationAttr);
-			equiv->AddProperty(equationAttr, e.equation);
+			equiv->DeleteAttribute(equationAttr);
+			equiv->AddAttribute(equationAttr, e.equation);
 			return;
 		}
 
@@ -439,7 +439,7 @@ void XMLConversionFactors::ChangeEquivalence(const wxString &name, const Equival
 void XMLConversionFactors::SetGroupVisibility(const wxString &name, const bool &visible)
 {
 	wxXmlNode *groupNode = GetGroupNode(name);
-	groupNode->DeleteProperty(displayAttr);
+	groupNode->DeleteAttribute(displayAttr);
 	groupNode->AddAttribute(displayAttr, visible ? _T("1") : _T("0"));
 }
 
@@ -608,7 +608,7 @@ wxXmlNode* XMLConversionFactors::GetGroupNode(const wxString &name)
 		if (child->GetType() == wxXML_ELEMENT_NODE &&
 			child->GetName().Cmp(groupNode) == 0)
 		{
-			if (child->GetPropVal(nameAttr, wxEmptyString).Cmp(name) == 0)
+			if (child->GetAttribute(nameAttr, wxEmptyString).Cmp(name) == 0)
 				return child;
 		}
 
@@ -616,7 +616,9 @@ wxXmlNode* XMLConversionFactors::GetGroupNode(const wxString &name)
 	}
 
 	wxString errorMessage(_T("Could not find group node for '") + name + _T("' in XML file"));
-	throw new std::runtime_error(errorMessage.mb_str());
+	throw new std::runtime_error(std::string(errorMessage.mb_str()));
+
+	return NULL;
 }
 
 //==========================================================================
@@ -638,9 +640,9 @@ wxXmlNode* XMLConversionFactors::GetGroupNode(const wxString &name)
 wxXmlNode* XMLConversionFactors::Equivalence::ToXmlNode(void) const
 {
 	wxXmlNode *node = new wxXmlNode(wxXML_ELEMENT_NODE, equivNode);
-	node->AddProperty(aUnitAttr, aUnit);
-	node->AddProperty(bUnitAttr, bUnit);
-	node->AddProperty(equationAttr, equation);
+	node->AddAttribute(aUnitAttr, aUnit);
+	node->AddAttribute(bUnitAttr, bUnit);
+	node->AddAttribute(equationAttr, equation);
 
 	return node;
 }

@@ -37,6 +37,7 @@
 //==========================================================================
 Converter::Converter(const XMLConversionFactors &xml) : xml(xml)
 {
+	setlocale(LC_ALL, "");// Do this to ensure we can convert unicode strings
 }
 
 //==========================================================================
@@ -281,7 +282,6 @@ wxString Converter::FindConversionPath(const XMLConversionFactors::FactorGroup &
 	const wxString &inUnit, const wxString &outUnit) const
 {
 	ConversionGraph graph(group);
-
 	std::queue<Converter::ConversionGraph::GraphNode*> q;
 	Converter::ConversionGraph::GraphNode* n;
 	q.push(graph.GetNode(outUnit));
@@ -332,7 +332,7 @@ wxString Converter::FindConversionPath(const XMLConversionFactors::FactorGroup &
 
 	wxString errorMessage(_T("Could not find path from '") + inUnit +
 		_T("' to '") + outUnit + _T("'"));
-	throw new std::runtime_error(errorMessage.mb_str());
+	throw new std::runtime_error(std::string(errorMessage.mb_str()));
 }
 
 //==========================================================================

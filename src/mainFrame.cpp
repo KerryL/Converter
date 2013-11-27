@@ -195,12 +195,18 @@ void MainFrame::SetProperties(void)
 #ifdef __WXMSW__
 	SetIcon(wxIcon(_T("ICON_ID_MAIN"), wxBITMAP_TYPE_ICO_RESOURCE));
 #elif __WXGTK__
-	SetIcon(wxIcon(icon16_xpm, wxBITMAP_TYPE_XPM));
-	SetIcon(wxIcon(icon24_xpm, wxBITMAP_TYPE_XPM));
-	SetIcon(wxIcon(icon32_xpm, wxBITMAP_TYPE_XPM));
-	SetIcon(wxIcon(icon48_xpm, wxBITMAP_TYPE_XPM));
-	SetIcon(wxIcon(icon64_xpm, wxBITMAP_TYPE_XPM));
-	SetIcon(wxIcon(icon128_xpm, wxBITMAP_TYPE_XPM));
+/*	SetIcon(wxIcon(wxString(icon16_xpm), wxBITMAP_TYPE_XPM));
+	SetIcon(wxIcon(wxString(icon24_xpm), wxBITMAP_TYPE_XPM));
+	SetIcon(wxIcon(wxString(icon32_xpm), wxBITMAP_TYPE_XPM));
+	SetIcon(wxIcon(wxString(icon48_xpm), wxBITMAP_TYPE_XPM));
+	SetIcon(wxIcon(wxString(icon64_xpm), wxBITMAP_TYPE_XPM));
+	SetIcon(wxIcon(wxString(icon128_xpm), wxBITMAP_TYPE_XPM));*/
+	SetIcon(wxIcon(icon16_xpm));
+	SetIcon(wxIcon(icon24_xpm));
+	SetIcon(wxIcon(icon32_xpm));
+	SetIcon(wxIcon(icon48_xpm));
+	SetIcon(wxIcon(icon64_xpm));
+	SetIcon(wxIcon(icon128_xpm));
 #endif
 }
 
