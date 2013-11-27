@@ -22,7 +22,7 @@
 #include "xmlConversionFactors.h"
 
 // To maintain support for wxWidgets versions < 2.9
-#if wxVERSION_NUMBER <= 20812
+#if !wxCHECK_VERSION(3,0,0)
 #define DeleteAttribute DeleteProperty
 #endif
 
