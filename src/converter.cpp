@@ -293,11 +293,6 @@ wxString Converter::FindConversionPath(const XMLConversionFactors::FactorGroup &
 		n = q.front();
 		q.pop();
 		if (n->name.Cmp(inUnit) == 0)
-			// NOTE:  At one time, there was a problem under GTK here,
-			// where unicode characters were not compared properly and
-			// the loop didn't end when it should have.  Problem seems
-			// to have fixed itself, possibly due to corrections made
-			// to xml file encoding?  Not sure...
 			return n->path;
 
 		for (i = n->GetNeighbors().begin(); i != n->GetNeighbors().end(); i++)
@@ -357,6 +352,7 @@ std::string Converter::GetConversionCode(const wxString &group, const wxString &
 	const wxString &outUnit)
 {
 	wxString code(group + _T(":") + inUnit + _T("->") + outUnit);
+	wxASSERT(!std::string(code.mb_str()).empty());
 	return std::string(code.mb_str());
 }
 
