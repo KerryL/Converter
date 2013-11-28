@@ -2,8 +2,8 @@
 Debug/
 Release/
 ipch/
-Converter/Debug
-Converter/Release
+Converter/Debug/
+Converter/Release/
 
 *.suo
 *.sdf
