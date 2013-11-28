@@ -1,9 +1,7 @@
 Converter
 =========
 
-Unit converter application
-
-Please see the [wiki](https://github.com/KerryL/Converter/wiki/Home) for more detailed information.
+Converter is a customizable unit converter application.  It is licesned under the MIT license.  Please see the [wiki](https://github.com/KerryL/Converter/wiki/Home) for more detailed information.
 
 Converter is built on wxWidgets.  It compiles and runs under both MSW and GTK.
 
