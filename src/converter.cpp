@@ -151,7 +151,7 @@ wxString Converter::GetConversion(const wxString &group, const wxString &inUnit,
 	const wxString &outUnit)
 {
 	std::string code = GetConversionCode(group, inUnit, outUnit);
-	std::unordered_map<std::string, wxString>::const_iterator it = conversions.find(code);
+	std::map<std::string, wxString>::const_iterator it = conversions.find(code);
 
 	if (it != conversions.end())
 		return it->second;
@@ -285,6 +285,7 @@ wxString Converter::FindConversionPath(const XMLConversionFactors::FactorGroup &
 	std::queue<Converter::ConversionGraph::GraphNode*> q;
 	Converter::ConversionGraph::GraphNode* n;
 	q.push(graph.GetNode(outUnit));
+	wxASSERT(q.front());
 	q.front()->visited = true;
 	unsigned int j;
 	std::set<Converter::ConversionGraph::GraphNode*>::iterator i;
@@ -325,9 +326,10 @@ wxString Converter::FindConversionPath(const XMLConversionFactors::FactorGroup &
 		}
 	}
 
-	wxString errorMessage(_T("Could not find path from '") + inUnit +
-		_T("' to '") + outUnit + _T("'"));
-	throw new std::runtime_error(std::string(errorMessage.mb_str()));
+	wxString errorMessage(_T("Could not find path from '") + inUnit
+		+ _T("' to '") + outUnit + _T("'.\nCheck that ") + xml.GetFileName()
+		+ _T(" is encoded as ") + xml.xmlEncoding + _T("."));
+	throw std::runtime_error(std::string(errorMessage.mb_str()));
 }
 
 //==========================================================================
@@ -380,14 +382,14 @@ Converter::ConversionGraph::ConversionGraph(const XMLConversionFactors::FactorGr
 	unsigned int i, j;
 	for (i = 0; i < unitList.Count(); i++)
 	{
-		node = GetNode(unitList[i]);
+		node = GetOrCreateNode(unitList[i]);
 
 		for (j = 0; j < group.equiv.size(); j++)
 		{
 			if (group.equiv[j].aUnit.Cmp(node->name) == 0)
-				node->AddNeighbor(GetNode(group.equiv[j].bUnit));
+				node->AddNeighbor(GetOrCreateNode(group.equiv[j].bUnit));
 			else if (group.equiv[j].bUnit.Cmp(node->name) == 0)
-				node->AddNeighbor(GetNode(group.equiv[j].aUnit));
+				node->AddNeighbor(GetOrCreateNode(group.equiv[j].aUnit));
 		}
 	}
 }
@@ -418,6 +420,37 @@ Converter::ConversionGraph::~ConversionGraph()
 
 //==========================================================================
 // Class:			Converter::ConversionGraph
+// Function:		GetOrCreateNode
+//
+// Description:		Finds node with matching name.  Creates a new node if no
+//					match is found.
+//
+// Input Arguments:
+//		name	= const wxString&
+//
+// Output Arguments:
+//		None
+//
+// Return Value:
+//		Converter::ConversionGraph::GraphNode*
+//
+//==========================================================================
+Converter::ConversionGraph::GraphNode*
+	Converter::ConversionGraph::GetOrCreateNode(const wxString &name)
+{
+	GraphNode *node = GetNode(name);
+
+	if (!node)
+	{
+		node = new GraphNode(name);
+		nodes.insert(node);
+	}
+
+	return node;
+}
+
+//==========================================================================
+// Class:			Converter::ConversionGraph
 // Function:		GetNode
 //
 // Description:		Finds node with matching name.
@@ -432,7 +465,8 @@ Converter::ConversionGraph::~ConversionGraph()
 //		Converter::ConversionGraph::GraphNode*
 //
 //==========================================================================
-Converter::ConversionGraph::GraphNode* Converter::ConversionGraph::GetNode(const wxString &name)
+Converter::ConversionGraph::GraphNode*
+	Converter::ConversionGraph::GetNode(const wxString &name) const
 {
 	std::set<GraphNode*>::iterator i;
 	for (i = nodes.begin(); i != nodes.end(); i++)
@@ -441,10 +475,7 @@ Converter::ConversionGraph::GraphNode* Converter::ConversionGraph::GetNode(const
 			return *i;
 	}
 
-	GraphNode *newNode = new GraphNode(name);
-	nodes.insert(newNode);
-
-	return newNode;
+	return NULL;
 }
 
 //==========================================================================

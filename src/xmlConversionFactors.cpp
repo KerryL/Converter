@@ -42,6 +42,7 @@
 //		None
 //
 //==========================================================================
+const wxString XMLConversionFactors::xmlEncoding(_T("UTF-8"));
 const wxString XMLConversionFactors::rootName(_T("CONVERSIONS"));
 const wxString XMLConversionFactors::groupNode(_T("GROUP"));
 const wxString XMLConversionFactors::nameAttr(_T("NAME"));
@@ -112,8 +113,16 @@ bool XMLConversionFactors::Load(void)
 {
 	ResetForLoad();
 
-	if (!document->Load(fileName, _T("ISO-8859-1"), wxXMLDOC_KEEP_WHITESPACE_NODES))
+	if (!document->Load(fileName, xmlEncoding, wxXMLDOC_KEEP_WHITESPACE_NODES))
 		return false;// Error message generated in wx call - don't create additional message
+
+	if (document->GetFileEncoding().Cmp(xmlEncoding) != 0)
+	{
+		wxMessageBox(_T("The XML declaration in ") + fileName
+			+ _T(" contains 'encoding=") + document->GetFileEncoding()
+			+ _T("', but Converter expects ") + xmlEncoding + _T("."));
+		return false;
+	}
 
 	if (document->GetRoot()->GetName().Cmp(rootName) != 0)
 	{
@@ -312,7 +321,7 @@ XMLConversionFactors::FactorGroup XMLConversionFactors::GetGroup(const wxString 
 			return groups[i];
 	}
 
-	throw new std::runtime_error("Group not found");
+	throw std::runtime_error("Group not found");
 }
 
 //==========================================================================
@@ -621,7 +630,7 @@ wxXmlNode* XMLConversionFactors::GetGroupNode(const wxString &name)
 	}
 
 	wxString errorMessage(_T("Could not find group node for '") + name + _T("' in XML file"));
-	throw new std::runtime_error(std::string(errorMessage.mb_str()));
+	throw std::runtime_error(std::string(errorMessage.mb_str()));
 
 	return NULL;
 }

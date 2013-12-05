@@ -63,6 +63,9 @@ public:
 	void ChangeEquivalence(const wxString &name, const Equivalence &e);
 	void SetGroupVisibility(const wxString &name, const bool &visible);
 
+	static const wxString xmlEncoding;
+	wxString GetFileName(void) const { return fileName; };
+
 private:
 	const wxString fileName;
 	wxXmlDocument *document;

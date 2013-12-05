@@ -16,7 +16,7 @@
 #define _CONVERTER_H_
 
 // Standard C++ headers
-#include <unordered_map>
+#include <map>
 #include <string>
 #include <set>
 
@@ -35,7 +35,7 @@ public:
 private:
 	const XMLConversionFactors &xml;
 
-	std::unordered_map<std::string, wxString> conversions;
+	std::map<std::string, wxString> conversions;
 
 	static double EvaluateConversion(const double &value, wxString conversionString);
 	wxString GetConversion(const wxString &group, const wxString &inUnit,
@@ -71,7 +71,8 @@ private:
 			std::set<GraphNode*> neighbors;
 		};
 
-		GraphNode* GetNode(const wxString &name);
+		GraphNode* GetOrCreateNode(const wxString &name);
+		GraphNode* GetNode(const wxString &name) const;
 		std::set<GraphNode*> GetNodes(void) const { return nodes; };
 
 	private:

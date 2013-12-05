@@ -7,7 +7,7 @@
 # DO NOT include the -I prefix to these paths - it will
 # be added automatically
 INCDIRS_TEMP = \
-	$(PWD)/src \
+	$(CURDIR)/src \
 
 INCDIRS = $(addprefix -I,$(INCDIRS_TEMP))
 
@@ -42,7 +42,8 @@ AR = ar rcs
 RANLIB = ranlib
 
 # Compiler flags
-CFLAGS = -g -Wall -Wextra -Werror $(INCDIRS) `wx-config --cppflags` -std=c++0x
+#CFLAGS = -g -Wall -Wextra -Werror $(INCDIRS) `wx-config --cppflags` -std=c++0x
+CFLAGS = -g -Wall -Wextra $(INCDIRS) `wx-config --cppflags`
 
 # Linker flags
 LDFLAGS = $(LIBDIRS) $(LIBS) `wx-config --libs`

@@ -159,7 +159,8 @@ bool OptionsDialog::TransferDataFromWindow(void)
 
 		if (!hasUnits)
 		{
-			wxMessageBox(_T("Group '") + newGroups[i] + _T("' has no unit definitions!"), _T("Error"), wxICON_ERROR, this);
+			wxMessageBox(_T("Group '") + newGroups[i] +
+				_T("' has no unit definitions!"), _T("Error"), wxICON_ERROR, this);
 			return false;
 		}
 	}
@@ -167,14 +168,24 @@ bool OptionsDialog::TransferDataFromWindow(void)
 	for (i = 0; i < newGroups.size(); i++)
 		xml.AddGroup(newGroups[i]);
 
-	for (i = 0; i < newUnits.size(); i++)
-		xml.AddEquivalence(newUnits[i].first, newUnits[i].second);
+	try
+	{
+		for (i = 0; i < newUnits.size(); i++)
+			xml.AddEquivalence(newUnits[i].first, newUnits[i].second);
 
-	for (i = 0; i < changedUnits.size(); i++)
-		xml.ChangeEquivalence(changedUnits[i].first, changedUnits[i].second);
+		for (i = 0; i < changedUnits.size(); i++)
+			xml.ChangeEquivalence(changedUnits[i].first, changedUnits[i].second);
 
-	for (i = 0; i < groupList->GetCount(); i++)
-		xml.SetGroupVisibility(groupList->GetString(i), groupList->IsChecked(i));
+		for (i = 0; i < groupList->GetCount(); i++)
+			xml.SetGroupVisibility(groupList->GetString(i), groupList->IsChecked(i));
+	}
+	catch (std::exception &e)
+	{
+		wxString message(_T("Error adding to conversions file!\n\n"));
+		message.Append(wxString(e.what(), wxConvUTF8));
+		wxMessageBox(message, _T("Error"), wxICON_ERROR, this);
+		return false;
+	}
 
 	xml.Save();
 
@@ -312,7 +323,7 @@ void OptionsDialog::OnUnitDoubleClick(wxCommandEvent& WXUNUSED(event))
 
 		newConversion = _T("a=b") + dialog.GetConversionFactor();
 	}
-	catch (ErrorCodes e)
+	catch (ErrorCodes &e)
 	{
 		if (e == errorHasErrors)
 			wxMessageBox(_T("Expression contains errors.  This must be corrected by opening the XML definitions direclty."),
@@ -523,7 +534,7 @@ wxArrayString OptionsDialog::GetCompleteUnitList(const wxString &groupName) cons
 	wxArrayString units;
 	if (!isNewGroup)
 	{
-		XMLConversionFactors::FactorGroup group = xml.GetGroup(groupName);
+		XMLConversionFactors::FactorGroup group = xml.GetGroup(groupName);// TODO:  catch exceptions
 		units = group.GetUnitList();
 	}
 

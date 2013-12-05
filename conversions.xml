@@ -1,12 +1,12 @@
-ï»¿<?xml version="1.0" encoding="ISO-8859-1"?>
+ï»¿<?xml version="1.0" encoding="UTF-8"?>
 <CONVERSIONS VERSION="1">
   <GROUP NAME="Acceleration" DISPLAY="1">
-    <EQUIV A_UNIT="centimeter/sec²" B_UNIT="foot/sec²" RELATION="a=b/0.0328083"/>
-	<EQUIV A_UNIT="freefall (g)" B_UNIT="foot/sec²" RELATION="a=b/32.17417"/>
-	<EQUIV A_UNIT="meter/sec²" B_UNIT="centimeter/sec²" RELATION="a=b/100"/>
-	<EQUIV A_UNIT="mile/hour/sec" B_UNIT="foot/sec²" RELATION="a=b/1.46667"/>
-	<EQUIV A_UNIT="millimeter/sec²" B_UNIT="meter/sec²" RELATION="a=b*1000"/>
-	<EQUIV A_UNIT="inch/sec²" B_UNIT="foot/sec²" RELATION="a=b*12"/>
+    <EQUIV A_UNIT="centimeter/secÂ²" B_UNIT="foot/secÂ²" RELATION="a=b/0.0328083"/>
+	<EQUIV A_UNIT="freefall (g)" B_UNIT="foot/secÂ²" RELATION="a=b/32.17417"/>
+	<EQUIV A_UNIT="meter/secÂ²" B_UNIT="centimeter/secÂ²" RELATION="a=b/100"/>
+	<EQUIV A_UNIT="mile/hour/sec" B_UNIT="foot/secÂ²" RELATION="a=b/1.46667"/>
+	<EQUIV A_UNIT="millimeter/secÂ²" B_UNIT="meter/secÂ²" RELATION="a=b*1000"/>
+	<EQUIV A_UNIT="inch/secÂ²" B_UNIT="foot/secÂ²" RELATION="a=b*12"/>
   </GROUP>
   <GROUP NAME="Amt. of Substance" DISPLAY="0">
     <EQUIV A_UNIT="mole" B_UNIT="kilomole" RELATION="a=b*1000"/>
@@ -22,15 +22,15 @@
 	<EQUIV A_UNIT="right angle" B_UNIT="degree" RELATION="a=b/90"/>
   </GROUP>
   <GROUP NAME="Area" DISPLAY="1">
-    <EQUIV A_UNIT="acre" B_UNIT="ft²" RELATION="a=b/43560"/>
-	<EQUIV A_UNIT="yard²" B_UNIT="ft²" RELATION="a=b/9"/>
-	<EQUIV A_UNIT="in²" B_UNIT="ft²" RELATION="a=b*144"/>
-	<EQUIV A_UNIT="meter²" B_UNIT="ft²" RELATION="a=b/10.76391"/>
-	<EQUIV A_UNIT="meter²" B_UNIT="kilometer²" RELATION="a=b*1e6"/>
-	<EQUIV A_UNIT="meter²" B_UNIT="centimeter²" RELATION="a=b/10000"/>
-	<EQUIV A_UNIT="meter²" B_UNIT="millimeter²" RELATION="a=b/1e6"/>
-	<EQUIV A_UNIT="mile²" B_UNIT="yard²" RELATION="a=b/3097600"/>
-	<EQUIV A_UNIT="hectacre" B_UNIT="kilometer²" RELATION="a=b*100"/>
+    <EQUIV A_UNIT="acre" B_UNIT="ftÂ²" RELATION="a=b/43560"/>
+	<EQUIV A_UNIT="yardÂ²" B_UNIT="ftÂ²" RELATION="a=b/9"/>
+	<EQUIV A_UNIT="inÂ²" B_UNIT="ftÂ²" RELATION="a=b*144"/>
+	<EQUIV A_UNIT="meterÂ²" B_UNIT="ftÂ²" RELATION="a=b/10.76391"/>
+	<EQUIV A_UNIT="meterÂ²" B_UNIT="kilometerÂ²" RELATION="a=b*1e6"/>
+	<EQUIV A_UNIT="meterÂ²" B_UNIT="centimeterÂ²" RELATION="a=b/10000"/>
+	<EQUIV A_UNIT="meterÂ²" B_UNIT="millimeterÂ²" RELATION="a=b/1e6"/>
+	<EQUIV A_UNIT="mileÂ²" B_UNIT="yardÂ²" RELATION="a=b/3097600"/>
+	<EQUIV A_UNIT="hectacre" B_UNIT="kilometerÂ²" RELATION="a=b*100"/>
   </GROUP>
   <GROUP NAME="Computer" DISPLAY="0">
     <EQUIV A_UNIT="byte" B_UNIT="bit" RELATION="a=b/8"/>
@@ -47,27 +47,27 @@
 	<EQUIV A_UNIT="nibble" B_UNIT="bit" RELATION="a=b/4"/>
   </GROUP>
   <GROUP NAME="Concentration" DISPLAY="0">
-    <EQUIV A_UNIT="kilomole/meter³" B_UNIT="mole/liter" RELATION="a=b"/>
-    <EQUIV A_UNIT="millimole/centimeter³" B_UNIT="kilomole/meter³" RELATION="a=b/1"/>
+    <EQUIV A_UNIT="kilomole/meterÂ³" B_UNIT="mole/liter" RELATION="a=b"/>
+    <EQUIV A_UNIT="millimole/centimeterÂ³" B_UNIT="kilomole/meterÂ³" RELATION="a=b/1"/>
     <EQUIV A_UNIT="millimole/milliliter" B_UNIT="mole/liter" RELATION="a=b/1"/>
-    <EQUIV A_UNIT="mole/decimiter³" B_UNIT="mole/liter" RELATION="a=b/1"/>
-    <EQUIV A_UNIT="mole/meter³" B_UNIT="mole/liter" RELATION="a=b/0.001"/>
-    <EQUIV A_UNIT="micromole/centimeter³" B_UNIT="mole/liter" RELATION="a=b/0.001"/>
-    <EQUIV A_UNIT="micromole/decimeter³" B_UNIT="micromole/centimeter³" RELATION="a=b/0.001"/>
-    <EQUIV A_UNIT="micromole/liter" B_UNIT="micromole/decimeter³" RELATION="a=b/1"/>
-    <EQUIV A_UNIT="millimole/decimeter³" B_UNIT="micromole/centimeter³" RELATION="a=b/1"/>
-    <EQUIV A_UNIT="millimole/liter" B_UNIT="micromole/centimeter³" RELATION="a=b/1"/>
-    <EQUIV A_UNIT="millimole/meter³" B_UNIT="micromole/centimeter³" RELATION="a=b/0.001"/>
-    <EQUIV A_UNIT="one elementary entity/meter³" B_UNIT="micromole/liter" RELATION="a=b/1.66054e-021"/>
+    <EQUIV A_UNIT="mole/decimiterÂ³" B_UNIT="mole/liter" RELATION="a=b/1"/>
+    <EQUIV A_UNIT="mole/meterÂ³" B_UNIT="mole/liter" RELATION="a=b/0.001"/>
+    <EQUIV A_UNIT="micromole/centimeterÂ³" B_UNIT="mole/liter" RELATION="a=b/0.001"/>
+    <EQUIV A_UNIT="micromole/decimeterÂ³" B_UNIT="micromole/centimeterÂ³" RELATION="a=b/0.001"/>
+    <EQUIV A_UNIT="micromole/liter" B_UNIT="micromole/decimeterÂ³" RELATION="a=b/1"/>
+    <EQUIV A_UNIT="millimole/decimeterÂ³" B_UNIT="micromole/centimeterÂ³" RELATION="a=b/1"/>
+    <EQUIV A_UNIT="millimole/liter" B_UNIT="micromole/centimeterÂ³" RELATION="a=b/1"/>
+    <EQUIV A_UNIT="millimole/meterÂ³" B_UNIT="micromole/centimeterÂ³" RELATION="a=b/0.001"/>
+    <EQUIV A_UNIT="one elementary entity/meterÂ³" B_UNIT="micromole/liter" RELATION="a=b/1.66054e-021"/>
   </GROUP>
   <GROUP NAME="Density" DISPLAY="1">
-    <EQUIV A_UNIT="gram/centimeter³" B_UNIT="pound/inch³" RELATION="a=b/0.03612729"/>
-    <EQUIV A_UNIT="gram/meter³" B_UNIT="gram/centimeter³" RELATION="a=b/1e-6"/>
-    <EQUIV A_UNIT="kilogram/meter³" B_UNIT="gram/meter³" RELATION="a=b/1000"/>
-    <EQUIV A_UNIT="milligram/meter³" B_UNIT="gram/meter³" RELATION="a=b/0.001"/>
-    <EQUIV A_UNIT="ounce/gallon" B_UNIT="pound/inch³" RELATION="a=b/0.0002705628"/>
-    <EQUIV A_UNIT="pound/foot³" B_UNIT="pound/inch³" RELATION="a=b/0.0005787037"/>
-    <EQUIV A_UNIT="ton/yard³" B_UNIT="pound/foot³" RELATION="a=b/43.29957"/>
+    <EQUIV A_UNIT="gram/centimeterÂ³" B_UNIT="pound/inchÂ³" RELATION="a=b/0.03612729"/>
+    <EQUIV A_UNIT="gram/meterÂ³" B_UNIT="gram/centimeterÂ³" RELATION="a=b/1e-6"/>
+    <EQUIV A_UNIT="kilogram/meterÂ³" B_UNIT="gram/meterÂ³" RELATION="a=b/1000"/>
+    <EQUIV A_UNIT="milligram/meterÂ³" B_UNIT="gram/meterÂ³" RELATION="a=b/0.001"/>
+    <EQUIV A_UNIT="ounce/gallon" B_UNIT="pound/inchÂ³" RELATION="a=b/0.0002705628"/>
+    <EQUIV A_UNIT="pound/footÂ³" B_UNIT="pound/inchÂ³" RELATION="a=b/0.0005787037"/>
+    <EQUIV A_UNIT="ton/yardÂ³" B_UNIT="pound/footÂ³" RELATION="a=b/43.29957"/>
   </GROUP>
   <GROUP NAME="Distance" DISPLAY="1">
     <EQUIV A_UNIT="inch" B_UNIT="foot" RELATION="a=b*12"/>
@@ -119,33 +119,33 @@
     <EQUIV A_UNIT="poundal-foot" B_UNIT="pound force-inch" RELATION="a=b/0.3729714"/>
   </GROUP>
   <GROUP NAME="Flow" DISPLAY="1">
-    <EQUIV A_UNIT="centimeter³/second" B_UNIT="centimeter³/minute" RELATION="a=b/60"/>
-	<EQUIV A_UNIT="centimeter³/hour" B_UNIT="centimeter³/minute" RELATION="a=b*60"/>
-    <EQUIV A_UNIT="foot³/hour" B_UNIT="centimeter³/second" RELATION="a=b/7.865791"/>
-    <EQUIV A_UNIT="foot³/minute" B_UNIT="foot³/hour" RELATION="a=b/60"/>
-    <EQUIV A_UNIT="foot³/second" B_UNIT="foot³/minute" RELATION="a=b/60"/>
-    <EQUIV A_UNIT="gallon (UK)/second" B_UNIT="foot³/minute" RELATION="a=b/9.632623"/>
+    <EQUIV A_UNIT="centimeterÂ³/second" B_UNIT="centimeterÂ³/minute" RELATION="a=b/60"/>
+	<EQUIV A_UNIT="centimeterÂ³/hour" B_UNIT="centimeterÂ³/minute" RELATION="a=b*60"/>
+    <EQUIV A_UNIT="footÂ³/hour" B_UNIT="centimeterÂ³/second" RELATION="a=b/7.865791"/>
+    <EQUIV A_UNIT="footÂ³/minute" B_UNIT="footÂ³/hour" RELATION="a=b/60"/>
+    <EQUIV A_UNIT="footÂ³/second" B_UNIT="footÂ³/minute" RELATION="a=b/60"/>
+    <EQUIV A_UNIT="gallon (UK)/second" B_UNIT="footÂ³/minute" RELATION="a=b/9.632623"/>
 	<EQUIV A_UNIT="gallon (UK)/second" B_UNIT="gallon (UK)/minute" RELATION="a=b/60"/>
 	<EQUIV A_UNIT="gallon (UK)/minute" B_UNIT="gallon (UK)/hour" RELATION="a=b/60"/>
 	<EQUIV A_UNIT="gallon (UK)/hour" B_UNIT="gallon (UK)/day" RELATION="a=b/24"/>
-    <EQUIV A_UNIT="gallon/second" B_UNIT="foot³/minute" RELATION="a=b/8.020833"/>
+    <EQUIV A_UNIT="gallon/second" B_UNIT="footÂ³/minute" RELATION="a=b/8.020833"/>
 	<EQUIV A_UNIT="gallon/second" B_UNIT="gallon/minute" RELATION="a=b/60"/>
 	<EQUIV A_UNIT="gallon/minute" B_UNIT="gallon/hour" RELATION="a=b/60"/>
 	<EQUIV A_UNIT="gallon/hour" B_UNIT="gallon/day" RELATION="a=b/24"/>
-    <EQUIV A_UNIT="liter/second" B_UNIT="centimeter³/second" RELATION="a=b/1000"/>
+    <EQUIV A_UNIT="liter/second" B_UNIT="centimeterÂ³/second" RELATION="a=b/1000"/>
 	<EQUIV A_UNIT="liter/second" B_UNIT="liter/minute" RELATION="a=b/60"/>
 	<EQUIV A_UNIT="liter/minute" B_UNIT="liter/hour" RELATION="a=b/60"/>
 	<EQUIV A_UNIT="liter/day" B_UNIT="liter/hour" RELATION="a=b*24"/>
-    <EQUIV A_UNIT="meter³/second" B_UNIT="liter/second" RELATION="a=b/1000"/>
-	<EQUIV A_UNIT="meter³/second" B_UNIT="meter³/minute" RELATION="a=b/60"/>
-	<EQUIV A_UNIT="meter³/minute" B_UNIT="meter³/hour" RELATION="a=b/60"/>
-	<EQUIV A_UNIT="meter³/hour" B_UNIT="meter³/day" RELATION="a=b/24"/>
+    <EQUIV A_UNIT="meterÂ³/second" B_UNIT="liter/second" RELATION="a=b/1000"/>
+	<EQUIV A_UNIT="meterÂ³/second" B_UNIT="meterÂ³/minute" RELATION="a=b/60"/>
+	<EQUIV A_UNIT="meterÂ³/minute" B_UNIT="meterÂ³/hour" RELATION="a=b/60"/>
+	<EQUIV A_UNIT="meterÂ³/hour" B_UNIT="meterÂ³/day" RELATION="a=b/24"/>
     <EQUIV A_UNIT="milliliter/second" B_UNIT="liter/second" RELATION="a=b/0.001"/>
 	<EQUIV A_UNIT="milliliter/second" B_UNIT="milliliter/minute" RELATION="a=b/60"/>
 	<EQUIV A_UNIT="milliliter/minute" B_UNIT="milliliter/hour" RELATION="a=b/60"/>
-    <EQUIV A_UNIT="yard³/second" B_UNIT="foot³/second" RELATION="a=b/27"/>
-    <EQUIV A_UNIT="yard³/minute" B_UNIT="foot³/minute" RELATION="a=b/27"/>
-    <EQUIV A_UNIT="yard³/hour" B_UNIT="foot³/hour" RELATION="a=b/27"/>
+    <EQUIV A_UNIT="yardÂ³/second" B_UNIT="footÂ³/second" RELATION="a=b/27"/>
+    <EQUIV A_UNIT="yardÂ³/minute" B_UNIT="footÂ³/minute" RELATION="a=b/27"/>
+    <EQUIV A_UNIT="yardÂ³/hour" B_UNIT="footÂ³/hour" RELATION="a=b/27"/>
     <EQUIV A_UNIT="ounce (UK)/hour" B_UNIT="gallon (UK)/hour" RELATION="a=b*160"/>
 	<EQUIV A_UNIT="ounce (UK)/minute" B_UNIT="ounce (UK)/hour" RELATION="a=b/60"/>
 	<EQUIV A_UNIT="ounce (UK)/second" B_UNIT="ounce (UK)/minute" RELATION="a=b/60"/>
@@ -163,8 +163,8 @@
     <EQUIV A_UNIT="kilogram force" B_UNIT="gram force" RELATION="a=b/1000"/>
   </GROUP>
   <GROUP NAME="Inertia" DISPLAY="1">
-    <EQUIV A_UNIT="slug-foot²" B_UNIT="foot-pound force-second²" RELATION="a=b"/>
-    <EQUIV A_UNIT="pound-inch²" B_UNIT="foot-pound force-second²" RELATION="a=b*4633.08"/>
+    <EQUIV A_UNIT="slug-footÂ²" B_UNIT="foot-pound force-secondÂ²" RELATION="a=b"/>
+    <EQUIV A_UNIT="pound-inchÂ²" B_UNIT="foot-pound force-secondÂ²" RELATION="a=b*4633.08"/>
   </GROUP>
   <GROUP NAME="Light" DISPLAY="0">
     <EQUIV A_UNIT="flame" B_UNIT="foot-candles" RELATION="a=b/4"/>
@@ -207,18 +207,18 @@
     <EQUIV A_UNIT="microbar" B_UNIT="millibar" RELATION="a=b/0.001"/>
     <EQUIV A_UNIT="kilopascal" B_UNIT="megapascal" RELATION="a=b/0.001"/>
     <EQUIV A_UNIT="pascal" B_UNIT="kilopascal" RELATION="a=b/0.001"/>
-    <EQUIV A_UNIT="dyne/centimeter²" B_UNIT="pascal" RELATION="a=b/0.1"/>
-    <EQUIV A_UNIT="newton/meter²" B_UNIT="pascal" RELATION="a=b/1"/>
-    <EQUIV A_UNIT="kilogram/meter²" B_UNIT="pascal" RELATION="a=b/9.80665"/>
-    <EQUIV A_UNIT="kilogram/centimeter²" B_UNIT="kilogram/meter²" RELATION="a=b/10000"/>
+    <EQUIV A_UNIT="dyne/centimeterÂ²" B_UNIT="pascal" RELATION="a=b/0.1"/>
+    <EQUIV A_UNIT="newton/meterÂ²" B_UNIT="pascal" RELATION="a=b/1"/>
+    <EQUIV A_UNIT="kilogram/meterÂ²" B_UNIT="pascal" RELATION="a=b/9.80665"/>
+    <EQUIV A_UNIT="kilogram/centimeterÂ²" B_UNIT="kilogram/meterÂ²" RELATION="a=b/10000"/>
     <EQUIV A_UNIT="millimeters of mercury" B_UNIT="millibar" RELATION="a=b/1.333224"/>
     <EQUIV A_UNIT="torr" B_UNIT="millimeters of mercury" RELATION="a=b/1"/>
-    <EQUIV A_UNIT="pound/inch²" B_UNIT="millibar" RELATION="a=b/68.94757"/>
-    <EQUIV A_UNIT="pound/foot²" B_UNIT="pound/inch²" RELATION="a=b*144"/>
+    <EQUIV A_UNIT="pound/inchÂ²" B_UNIT="millibar" RELATION="a=b/68.94757"/>
+    <EQUIV A_UNIT="pound/footÂ²" B_UNIT="pound/inchÂ²" RELATION="a=b*144"/>
     <EQUIV A_UNIT="centimeters of mercury" B_UNIT="millimeters of mercury" RELATION="a=b/10"/>
     <EQUIV A_UNIT="inches of mercury" B_UNIT="millimeters of mercury" RELATION="a=b/25.4"/>
-    <EQUIV A_UNIT="ton/inch²" B_UNIT="pound/inch²" RELATION="a=b/2000"/>
-    <EQUIV A_UNIT="ton/foot²" B_UNIT="pound/foot²" RELATION="a=b/2000"/>
+    <EQUIV A_UNIT="ton/inchÂ²" B_UNIT="pound/inchÂ²" RELATION="a=b/2000"/>
+    <EQUIV A_UNIT="ton/footÂ²" B_UNIT="pound/footÂ²" RELATION="a=b/2000"/>
   </GROUP>
   <GROUP NAME="Speed" DISPLAY="1">
     <EQUIV A_UNIT="speed of light" B_UNIT="meter/second" RELATION="a=b/299792458"/>
@@ -274,13 +274,13 @@
     <EQUIV A_UNIT="ounce-force foot" B_UNIT="pound-force foot" RELATION="a=b*16"/>
   </GROUP>
   <GROUP NAME="Volume" DISPLAY="1">
-    <EQUIV A_UNIT="centimeter³" B_UNIT="inch³" RELATION="a=b/0.06102374"/>
-    <EQUIV A_UNIT="foot³" B_UNIT="inch³" RELATION="a=b/1728"/>
-    <EQUIV A_UNIT="meter³" B_UNIT="centimeter³" RELATION="a=b/1000000"/>
-    <EQUIV A_UNIT="yard³" B_UNIT="foot³" RELATION="a=b/27"/>
-    <EQUIV A_UNIT="milliliter" B_UNIT="centimeter³" RELATION="a=b/1"/>
+    <EQUIV A_UNIT="centimeterÂ³" B_UNIT="inchÂ³" RELATION="a=b/0.06102374"/>
+    <EQUIV A_UNIT="footÂ³" B_UNIT="inchÂ³" RELATION="a=b/1728"/>
+    <EQUIV A_UNIT="meterÂ³" B_UNIT="centimeterÂ³" RELATION="a=b/1000000"/>
+    <EQUIV A_UNIT="yardÂ³" B_UNIT="footÂ³" RELATION="a=b/27"/>
+    <EQUIV A_UNIT="milliliter" B_UNIT="centimeterÂ³" RELATION="a=b/1"/>
     <EQUIV A_UNIT="liter" B_UNIT="milliliter" RELATION="a=b/1000"/>
-    <EQUIV A_UNIT="gallon" B_UNIT="inch³" RELATION="a=b/231"/>
+    <EQUIV A_UNIT="gallon" B_UNIT="inchÂ³" RELATION="a=b/231"/>
     <EQUIV A_UNIT="gallon (UK)" B_UNIT="liter" RELATION="a=b/4.546092"/>
     <EQUIV A_UNIT="quart" B_UNIT="gallon" RELATION="a=b/0.25"/>
     <EQUIV A_UNIT="pint" B_UNIT="quart" RELATION="a=b/0.5"/>
