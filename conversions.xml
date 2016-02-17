@@ -178,16 +178,16 @@
     <EQUIV A_UNIT="microgram" B_UNIT="milligram" RELATION="a=b/0.001"/>
     <EQUIV A_UNIT="tonne (metric ton)" B_UNIT="megagram" RELATION="a=b"/>
     <EQUIV A_UNIT="pennyweight" B_UNIT="gram" RELATION="a=b/1.555174"/>
-    <EQUIV A_UNIT="pound (advp)" B_UNIT="kilogram" RELATION="a=b/0.4535924"/>
+    <EQUIV A_UNIT="pound (avdp)" B_UNIT="kilogram" RELATION="a=b/0.4535924"/>
     <EQUIV A_UNIT="pound (troy)" B_UNIT="kilogram" RELATION="a=b/0.3732417"/>
-    <EQUIV A_UNIT="stone" B_UNIT="pound (advp)" RELATION="a=b/14"/>
-    <EQUIV A_UNIT="ton (short)" B_UNIT="pound (advp)" RELATION="a=b/2000"/>
-    <EQUIV A_UNIT="ton (long)" B_UNIT="pound (advp)" RELATION="a=b/2240"/>
-    <EQUIV A_UNIT="ounce (advp)" B_UNIT="pound (advp)" RELATION="a=b/0.0625"/>
+    <EQUIV A_UNIT="stone" B_UNIT="pound (avdp)" RELATION="a=b/14"/>
+    <EQUIV A_UNIT="ton (short)" B_UNIT="pound (avdp)" RELATION="a=b/2000"/>
+    <EQUIV A_UNIT="ton (long)" B_UNIT="pound (avdp)" RELATION="a=b/2240"/>
+    <EQUIV A_UNIT="ounce (avdp)" B_UNIT="pound (avdp)" RELATION="a=b/0.0625"/>
     <EQUIV A_UNIT="ounce (troy)" B_UNIT="pennyweight" RELATION="a=b/20"/>
     <EQUIV A_UNIT="carat" B_UNIT="gram" RELATION="a=b/0.2"/>
     <EQUIV A_UNIT="grain" B_UNIT="carat" RELATION="a=b/0.3239945"/>
-    <EQUIV A_UNIT="slug" B_UNIT="pound (advp)" RELATION="a=b/32.17417"/>
+    <EQUIV A_UNIT="slug" B_UNIT="pound (avdp)" RELATION="a=b/32.17417"/>
   </GROUP>
   <GROUP NAME="Power" DISPLAY="1">
     <EQUIV A_UNIT="BTU/second" B_UNIT="BTU/minute" RELATION="a=b/60"/>
