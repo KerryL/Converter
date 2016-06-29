@@ -18,6 +18,7 @@
 
 // Local headers
 #include "optionsDialog.h"
+#include "converterApp.h"
 
 #ifdef __WXMSW__
 #pragma warning(disable:4428)// Compiler bug erroneously flags strings containing unicode characters
@@ -111,12 +112,18 @@ void OptionsDialog::CreateControls(void)
 	controlSizer->Add(new wxButton(this, idNewGroup, _T("New Group")));
 	controlSizer->Add(new wxButton(this, idNewUnit, _T("New Unit")));
 
+	mainSizer->AddSpacer(15);
+
+	wxSizer* buttonParentSizer = new wxBoxSizer(wxHORIZONTAL);
+	mainSizer->Add(buttonParentSizer, 0, wxGROW);
+
+	wxStaticText* gitHash = new wxStaticText(this, wxID_ANY, ConverterApp::gitHash);
+	buttonParentSizer->Add(gitHash, 0, wxGROW);
+	buttonParentSizer->AddStretchSpacer();
+
 	wxSizer *buttons = CreateButtonSizer(wxOK | wxCANCEL);
 	if (buttons)
-	{
-		mainSizer->AddSpacer(15);
-		mainSizer->Add(buttons, 0, wxGROW);
-	}
+		buttonParentSizer->Add(buttons, 0, wxGROW);
 
 	groupList->SetSelection(0);
 	UpdateUnitList();
