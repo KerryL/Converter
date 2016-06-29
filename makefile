@@ -12,17 +12,26 @@ DIRS = \
 
 # Source files
 SRC = $(foreach dir, $(DIRS), $(wildcard $(dir)/*.cpp))
+VERSION_FILE = src/gitHash.cpp
 
 # Object files
-OBJS = $(addprefix $(OBJDIR),$(SRC:.cpp=.o))
+TEMP_OBJS = $(addprefix $(OBJDIR),$(SRC:.cpp=.o))
+VERSION_FILE_OBJ = $(OBJDIR)$(VERSION_FILE:.cpp=.o)
+OBJS = $(filter-out $(VERSION_FILE_OBJ),$(TEMP_OBJS))
+ALL_OBJS = $(OBJS) $(VERSION_FILE_OBJ)
 
 .PHONY: all clean
 
 all: $(TARGET)
 
-$(TARGET): $(OBJS)
+$(TARGET): $(OBJS) version
 	$(MKDIR) $(BINDIR)
 	$(CC) $(OBJS) $(LDFLAGS) -L$(LIBOUTDIR) $(addprefix -l,$(PSLIB)) -o $(BINDIR)$@
+
+version:
+	./getGitHash.sh
+	$(MKDIR) $(dir $(VERSION_FILE_OBJ))
+	$(CC) $(CFLAGS_DEBUG) -c $(VERSION_FILE) -o $(VERSION_FILE_OBJ)
 
 $(OBJDIR)%.o: %.cpp
 	$(MKDIR) $(dir $@)
@@ -31,3 +40,4 @@ $(OBJDIR)%.o: %.cpp
 clean:
 	$(RM) -r $(OBJDIR)
 	$(RM) $(BINDIR)$(TARGET)
+	$(RM) $(VERSION_FILE)

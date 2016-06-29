@@ -18,3 +18,5 @@ bin/
 .obj/
 /Converter/nbproject/private/
 /nbproject/private/
+
+gitHash.cpp
