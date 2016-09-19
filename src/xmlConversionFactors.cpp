@@ -720,6 +720,13 @@ wxArrayString XMLConversionFactors::FactorGroup::GetUnitList(const bool &sort) c
 //==========================================================================
 void XMLConversionFactors::Save() const
 {
+	if (!::wxDirExists(::wxGetCwd()))
+	{
+		wxMessageBox(_T("Working directory is inaccessible; changes cannot be saved."),
+			_T("Error"), wxOK | wxICON_ERROR);
+		return;
+	}
+
 	const wxString transactionFileName(_T("~") + fileName);
 	document->Save(transactionFileName, wxXML_NO_INDENTATION);
 	wxCopyFile(transactionFileName, fileName);

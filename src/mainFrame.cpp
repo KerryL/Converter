@@ -660,6 +660,13 @@ void MainFrame::LoadConfiguration()
 //==========================================================================
 void MainFrame::SaveConfiguration()
 {
+	if (!::wxDirExists(::wxGetCwd()))
+	{
+		wxMessageBox(_T("Working directory is inaccessible; configuration cannot be saved."),
+			_T("Error"), wxOK | wxICON_WARNING, this);
+		return;
+	}
+
 	const wxString transactionFileName(_T("~") + configFileName);
 	wxFileConfig *config = new wxFileConfig(_T(""), _T(""), transactionFileName, _T(""),
 		wxCONFIG_USE_RELATIVE_PATH);
