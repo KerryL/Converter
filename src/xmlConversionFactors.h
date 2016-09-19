@@ -86,7 +86,7 @@ private:
 
 	// XML Tags
 	static const wxString rootName;
-	static const wxString groupNode;
+	static const wxString groupNodeStr;
 	static const wxString nameAttr;
 	static const wxString displayAttr;
 	static const wxString equivNode;

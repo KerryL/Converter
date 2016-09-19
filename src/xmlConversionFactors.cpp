@@ -44,7 +44,7 @@
 //==========================================================================
 const wxString XMLConversionFactors::xmlEncoding(_T("UTF-8"));
 const wxString XMLConversionFactors::rootName(_T("CONVERSIONS"));
-const wxString XMLConversionFactors::groupNode(_T("GROUP"));
+const wxString XMLConversionFactors::groupNodeStr(_T("GROUP"));
 const wxString XMLConversionFactors::nameAttr(_T("NAME"));
 const wxString XMLConversionFactors::displayAttr(_T("DISPLAY"));
 const wxString XMLConversionFactors::equivNode(_T("EQUIV"));
@@ -133,7 +133,7 @@ bool XMLConversionFactors::Load()
 	wxXmlNode *child = document->GetRoot()->GetChildren();
 	while (child)
 	{
-		if (child->GetName().Cmp(groupNode) == 0)
+		if (child->GetName().Cmp(groupNodeStr) == 0)
 		{
 			if (!ReadGroupNode(child))
 				return false;
@@ -174,7 +174,7 @@ bool XMLConversionFactors::ReadGroupNode(wxXmlNode *node)
 	FactorGroup newGroup;
 	if (!node->GetAttribute(nameAttr, &newGroup.name))
 	{
-		DoErrorMessage(_T("Cannot read '") + nameAttr + _T("' attribute for '") + groupNode + _T("' node"));
+		DoErrorMessage(_T("Cannot read '") + nameAttr + _T("' attribute for '") + groupNodeStr + _T("' node"));
 		return false;
 	}
 
@@ -363,7 +363,7 @@ void XMLConversionFactors::DoErrorMessage(const wxString &message) const
 //==========================================================================
 void XMLConversionFactors::AddGroup(const wxString &name)
 {
-	wxXmlNode *node = new wxXmlNode(wxXML_ELEMENT_NODE, groupNode);
+	wxXmlNode *node = new wxXmlNode(wxXML_ELEMENT_NODE, groupNodeStr);
 	node->AddAttribute(nameAttr, name);
 	node->AddAttribute(displayAttr, _T("1"));
 	AddNodePreserveFormatting(document->GetRoot(), node, true);
@@ -620,7 +620,7 @@ wxXmlNode* XMLConversionFactors::GetGroupNode(const wxString &name)
 	while (child)
 	{
 		if (child->GetType() == wxXML_ELEMENT_NODE &&
-			child->GetName().Cmp(groupNode) == 0)
+			child->GetName().Cmp(groupNodeStr) == 0)
 		{
 			if (child->GetAttribute(nameAttr, wxEmptyString).Cmp(name) == 0)
 				return child;
