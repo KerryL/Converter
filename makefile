@@ -26,12 +26,12 @@ all: $(TARGET)
 
 $(TARGET): $(OBJS) version
 	$(MKDIR) $(BINDIR)
-	$(CC) $(OBJS) $(LDFLAGS) -L$(LIBOUTDIR) $(addprefix -l,$(PSLIB)) -o $(BINDIR)$@
+	$(CC) $(ALL_OBJS) $(LDFLAGS) -L$(LIBOUTDIR) $(addprefix -l,$(PSLIB)) -o $(BINDIR)$@
 
 version:
 	./getGitHash.sh
 	$(MKDIR) $(dir $(VERSION_FILE_OBJ))
-	$(CC) $(CFLAGS_DEBUG) -c $(VERSION_FILE) -o $(VERSION_FILE_OBJ)
+	$(CC) $(CFLAGS) -c $(VERSION_FILE) -o $(VERSION_FILE_OBJ)
 
 $(OBJDIR)%.o: %.cpp
 	$(MKDIR) $(dir $@)
