@@ -34,7 +34,7 @@ public:
 
 private:
 	XMLConversionFactors &xml;
-	void CreateControls(void);
+	void CreateControls();
 
 	wxCheckListBox *groupList;
 	wxListBox *unitList;
@@ -58,10 +58,10 @@ private:
 	void OnSelectedGroupChange(wxCommandEvent &event);
 	void OnUnitDoubleClick(wxCommandEvent &event);
 
-	virtual bool TransferDataFromWindow(void);
+	virtual bool TransferDataFromWindow();
 
-	void AddGroupsToControl(void);
-	void UpdateUnitList(void);
+	void AddGroupsToControl();
+	void UpdateUnitList();
 	wxArrayString GetCompleteUnitList(const wxString &groupName) const;
 	wxArrayString GetNewUnits(const wxString &groupName) const;
 
@@ -84,9 +84,9 @@ private:
 		AddUnitDialog(wxWindow *parent, const wxString &groupName,
 			const wxArrayString &unitList, const XMLConversionFactors::Equivalence &unitInfo);
 
-		wxString GetUnitName(void) const;
-		wxString GetConversionFactor(void) const;
-		wxString GetEquivalentUnitName(void) const;
+		wxString GetUnitName() const;
+		wxString GetConversionFactor() const;
+		wxString GetEquivalentUnitName() const;
 
 	private:
 		void CreateControls(const wxArrayString &unitList);
@@ -127,7 +127,7 @@ private:
 		ControlIds focusedControl;
 		long cursorPosition;
 
-		virtual bool TransferDataFromWindow(void);
+		virtual bool TransferDataFromWindow();
 
 		DECLARE_EVENT_TABLE();
 	};

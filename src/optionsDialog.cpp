@@ -87,7 +87,7 @@ END_EVENT_TABLE();
 //		None
 //
 //==========================================================================
-void OptionsDialog::CreateControls(void)
+void OptionsDialog::CreateControls()
 {
 	wxSizer *topSizer = new wxBoxSizer(wxVERTICAL);
 	wxSizer *mainSizer = new wxBoxSizer(wxVERTICAL);
@@ -148,7 +148,7 @@ void OptionsDialog::CreateControls(void)
 //		bool, false if problems found, true otherwise
 //
 //==========================================================================
-bool OptionsDialog::TransferDataFromWindow(void)
+bool OptionsDialog::TransferDataFromWindow()
 {
 	unsigned int i, j;
 	bool hasUnits;
@@ -476,7 +476,7 @@ XMLConversionFactors::Equivalence OptionsDialog::GetUnitInfo(const wxString &gro
 //		None
 //
 //==========================================================================
-void OptionsDialog::AddGroupsToControl(void)
+void OptionsDialog::AddGroupsToControl()
 {
 	unsigned int i;
 	for (i = 0; i < xml.GroupCount(); i++)
@@ -502,7 +502,7 @@ void OptionsDialog::AddGroupsToControl(void)
 //		None
 //
 //==========================================================================
-void OptionsDialog::UpdateUnitList(void)
+void OptionsDialog::UpdateUnitList()
 {
 	unitList->Clear();
 
@@ -1234,7 +1234,7 @@ void OptionsDialog::AddUnitDialog::OnTextChange(wxCommandEvent &event)
 //		wxString
 //
 //==========================================================================
-wxString OptionsDialog::AddUnitDialog::GetUnitName(void) const
+wxString OptionsDialog::AddUnitDialog::GetUnitName() const
 {
 	return unit->GetValue();
 }
@@ -1255,7 +1255,7 @@ wxString OptionsDialog::AddUnitDialog::GetUnitName(void) const
 //		wxString
 //
 //==========================================================================
-wxString OptionsDialog::AddUnitDialog::GetConversionFactor(void) const
+wxString OptionsDialog::AddUnitDialog::GetConversionFactor() const
 {
 	wxString factor(wxEmptyString);
 	if (aQtyText->GetValue().Cmp(_T("1")) != 0)
@@ -1283,7 +1283,7 @@ wxString OptionsDialog::AddUnitDialog::GetConversionFactor(void) const
 //		wxString
 //
 //==========================================================================
-wxString OptionsDialog::AddUnitDialog::GetEquivalentUnitName(void) const
+wxString OptionsDialog::AddUnitDialog::GetEquivalentUnitName() const
 {
 	return equivalentUnit->GetValue();
 }
@@ -1304,7 +1304,7 @@ wxString OptionsDialog::AddUnitDialog::GetEquivalentUnitName(void) const
 //		bool, false if problems found, true otherwise
 //
 //==========================================================================
-bool OptionsDialog::AddUnitDialog::TransferDataFromWindow(void)
+bool OptionsDialog::AddUnitDialog::TransferDataFromWindow()
 {
 	if (unit->GetValue().IsEmpty() || equivalentUnit->GetValue().IsEmpty())
 	{

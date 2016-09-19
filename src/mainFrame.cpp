@@ -127,7 +127,7 @@ END_EVENT_TABLE();
 //		None
 //
 //==========================================================================
-void MainFrame::CreateControls(void)
+void MainFrame::CreateControls()
 {
 	wxBoxSizer *topSizer = new wxBoxSizer(wxVERTICAL);
 	wxPanel *mainPanel = new wxPanel(this);
@@ -186,7 +186,7 @@ void MainFrame::CreateControls(void)
 //		None
 //
 //==========================================================================
-void MainFrame::SetProperties(void)
+void MainFrame::SetProperties()
 {
 	SetTitle(ConverterApp::title + _T(" ") + ConverterApp::versionString);
 	SetName(ConverterApp::name);
@@ -420,7 +420,7 @@ void MainFrame::OnClose(wxCloseEvent& event)
 //		None
 //
 //==========================================================================
-void MainFrame::UpdateConversion(void)
+void MainFrame::UpdateConversion()
 {
 	if (notebook->GetPageCount() == 0)
 		return;
@@ -483,7 +483,7 @@ void MainFrame::UpdateConversion(void)
 //		wxListBox*
 //
 //==========================================================================
-wxListBox* MainFrame::GetInputUnitsBox(void) const
+wxListBox* MainFrame::GetInputUnitsBox() const
 {
 	return static_cast<wxListBox*>(GetControlOnActiveTab(idInput));
 }
@@ -504,7 +504,7 @@ wxListBox* MainFrame::GetInputUnitsBox(void) const
 //		wxListBox*
 //
 //==========================================================================
-wxListBox* MainFrame::GetOutputUnitsBox(void) const
+wxListBox* MainFrame::GetOutputUnitsBox() const
 {
 	return static_cast<wxListBox*>(GetControlOnActiveTab(idOutput));
 }
@@ -598,7 +598,7 @@ void MainFrame::AddNotebookPage(const XMLConversionFactors::FactorGroup &group)
 //		None
 //
 //==========================================================================
-void MainFrame::LoadConfiguration(void)
+void MainFrame::LoadConfiguration()
 {
 	wxFileConfig *config = new wxFileConfig(_T(""), _T(""), configFileName, _T(""),
 		wxCONFIG_USE_RELATIVE_PATH);
@@ -658,7 +658,7 @@ void MainFrame::LoadConfiguration(void)
 //		None
 //
 //==========================================================================
-void MainFrame::SaveConfiguration(void)
+void MainFrame::SaveConfiguration()
 {
 	const wxString transactionFileName(_T("~") + configFileName);
 	wxFileConfig *config = new wxFileConfig(_T(""), _T(""), transactionFileName, _T(""),

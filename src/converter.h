@@ -65,7 +65,7 @@ private:
 			wxString path;
 			bool visited;
 			void AddNeighbor(GraphNode *n) { neighbors.insert(n); };
-			std::set<GraphNode*>& GetNeighbors(void) { return neighbors; };
+			std::set<GraphNode*>& GetNeighbors() { return neighbors; };
 
 		private:
 			std::set<GraphNode*> neighbors;
@@ -73,7 +73,7 @@ private:
 
 		GraphNode* GetOrCreateNode(const wxString &name);
 		GraphNode* GetNode(const wxString &name) const;
-		std::set<GraphNode*> GetNodes(void) const { return nodes; };
+		std::set<GraphNode*> GetNodes() const { return nodes; };
 
 	private:
 		std::set<GraphNode*> nodes;

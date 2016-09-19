@@ -31,8 +31,8 @@ public:
 	XMLConversionFactors(const wxString &fileName);
 	~XMLConversionFactors();
 
-	bool Load(void);
-	void Save(void) const;
+	bool Load();
+	void Save() const;
 
 	class Equivalence
 	{
@@ -40,7 +40,7 @@ public:
 		wxString aUnit, bUnit;
 		wxString equation;
 
-		wxXmlNode* ToXmlNode(void) const;
+		wxXmlNode* ToXmlNode() const;
 	};
 
 	class FactorGroup
@@ -54,7 +54,7 @@ public:
 		wxArrayString GetUnitList(const bool &sort = true) const;
 	};
 
-	unsigned int GroupCount(void) const { return groups.size(); };
+	unsigned int GroupCount() const { return groups.size(); };
 	FactorGroup GetGroup(const unsigned int &i) const { return groups[i]; };
 	FactorGroup GetGroup(const wxString &name) const;
 
@@ -64,17 +64,17 @@ public:
 	void SetGroupVisibility(const wxString &name, const bool &visible);
 
 	static const wxString xmlEncoding;
-	wxString GetFileName(void) const { return fileName; };
+	wxString GetFileName() const { return fileName; };
 
 private:
 	const wxString fileName;
 	wxXmlDocument *document;
 
-	void ResetForLoad(void);
+	void ResetForLoad();
 	void AddNodePreserveFormatting(wxXmlNode *parent, wxXmlNode *child, const bool &alphabetize = false) const;
 	bool GetNodeAfterAlphabetically(const wxString &name, wxXmlNode *parent, wxXmlNode *&nodeAfterChild) const;
 
-	static wxXmlNode* GetNewLineNode(void);
+	static wxXmlNode* GetNewLineNode();
 	static wxXmlNode* GetIndentNode(const unsigned int &level);
 
 	wxXmlNode* GetGroupNode(const wxString &name);
@@ -94,7 +94,7 @@ private:
 	static const wxString bUnitAttr;
 	static const wxString equationAttr;
 
-	bool DuplicateGroupsExist(void) const;
+	bool DuplicateGroupsExist() const;
 
 	void DoErrorMessage(const wxString &message) const;
 };

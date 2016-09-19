@@ -109,7 +109,7 @@ XMLConversionFactors::~XMLConversionFactors()
 //		bool, true for success, false otherwise
 //
 //==========================================================================
-bool XMLConversionFactors::Load(void)
+bool XMLConversionFactors::Load()
 {
 	ResetForLoad();
 
@@ -278,7 +278,7 @@ bool XMLConversionFactors::ReadEquivNode(wxXmlNode *node, Equivalence &equiv)
 //		bool, true if two groups have the same name
 //
 //==========================================================================
-bool XMLConversionFactors::DuplicateGroupsExist(void) const
+bool XMLConversionFactors::DuplicateGroupsExist() const
 {
 	unsigned int i, j;
 	for (i = 1; i < groups.size(); i++)
@@ -571,7 +571,7 @@ bool XMLConversionFactors::GetNodeAfterAlphabetically(const wxString &name,
 //		None
 //
 //==========================================================================
-wxXmlNode* XMLConversionFactors::GetNewLineNode(void)
+wxXmlNode* XMLConversionFactors::GetNewLineNode()
 {
 	return new wxXmlNode(wxXML_TEXT_NODE, wxEmptyString, _T("\n"));
 }
@@ -651,7 +651,7 @@ wxXmlNode* XMLConversionFactors::GetGroupNode(const wxString &name)
 //		wxXmlNode*
 //
 //==========================================================================
-wxXmlNode* XMLConversionFactors::Equivalence::ToXmlNode(void) const
+wxXmlNode* XMLConversionFactors::Equivalence::ToXmlNode() const
 {
 	wxXmlNode *node = new wxXmlNode(wxXML_ELEMENT_NODE, equivNode);
 	node->AddAttribute(aUnitAttr, aUnit);
@@ -718,7 +718,7 @@ wxArrayString XMLConversionFactors::FactorGroup::GetUnitList(const bool &sort) c
 //		None
 //
 //==========================================================================
-void XMLConversionFactors::Save(void) const
+void XMLConversionFactors::Save() const
 {
 	const wxString transactionFileName(_T("~") + fileName);
 	document->Save(transactionFileName, wxXML_NO_INDENTATION);
@@ -742,7 +742,7 @@ void XMLConversionFactors::Save(void) const
 //		None
 //
 //==========================================================================
-void XMLConversionFactors::ResetForLoad(void)
+void XMLConversionFactors::ResetForLoad()
 {
 	delete document;
 	document = new wxXmlDocument;

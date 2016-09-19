@@ -36,8 +36,8 @@ public:
 	~MainFrame();
 
 private:
-	void CreateControls(void);
-	void SetProperties(void);
+	void CreateControls();
+	void SetProperties();
 
 	void EnforcePageConfiguration(const bool &saveConfig = true);
 	void AddNotebookPage(const XMLConversionFactors::FactorGroup &group);
@@ -48,8 +48,8 @@ private:
 	wxStaticText *inUnits;
 	wxStaticText *outUnits;
 
-	wxListBox *GetInputUnitsBox(void) const;
-	wxListBox *GetOutputUnitsBox(void) const;
+	wxListBox *GetInputUnitsBox() const;
+	wxListBox *GetOutputUnitsBox() const;
 	wxWindow *GetControlOnActiveTab(int id) const;
 
 	enum ControlID
@@ -69,14 +69,14 @@ private:
 	void OnSwapButton(wxCommandEvent &event);
 	void OnClose(wxCloseEvent &event);
 
-	void UpdateConversion(void);
+	void UpdateConversion();
 
 	XMLConversionFactors xml;
 	Converter converter;
 
 	const wxString configFileName;
-	void LoadConfiguration(void);
-	void SaveConfiguration(void);
+	void LoadConfiguration();
+	void SaveConfiguration();
 
 	DECLARE_EVENT_TABLE();
 };
