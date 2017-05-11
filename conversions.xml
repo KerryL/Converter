@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CONVERSIONS VERSION="1">
   <GROUP NAME="Acceleration" DISPLAY="1">
     <EQUIV A_UNIT="centimeter/sec²" B_UNIT="foot/sec²" RELATION="a=b/0.0328083"/>
@@ -14,12 +14,25 @@
 	<EQUIV A_UNIT="mole" B_UNIT="micromole" RELATION="a=b*1e-6"/>
   </GROUP>
   <GROUP NAME="Angle" DISPLAY="1">
-    <EQUIV A_UNIT="degree" B_UNIT="radian" RELATION="a=b/0.01745329"/>
+    <EQUIV A_UNIT="degree" B_UNIT="radian" RELATION="a=b*180/3.1415926535897932"/>
 	<EQUIV A_UNIT="revolution" B_UNIT="degree" RELATION="a=b/360"/>
 	<EQUIV A_UNIT="grad" B_UNIT="revolution" RELATION="a=b*400"/>
 	<EQUIV A_UNIT="degree" B_UNIT="minute" RELATION="a=b/60"/>
 	<EQUIV A_UNIT="minute" B_UNIT="second" RELATION="a=b/60"/>
 	<EQUIV A_UNIT="right angle" B_UNIT="degree" RELATION="a=b/90"/>
+  </GROUP>
+  <GROUP NAME="Angular Acceleration" DISPLAY="1">
+    <EQUIV A_UNIT="RPM/sec" B_UNIT="deg/sec²" RELATION="a=b/6"/>
+    <EQUIV A_UNIT="rev/sec²" B_UNIT="RPM/sec" RELATION="a=b/60"/>
+	<EQUIV A_UNIT="deg/sec²" B_UNIT="rad/sec²" RELATION="a=b*180/3.1415926535897932"/>
+  </GROUP>
+  <GROUP NAME="Angular Speed" DISPLAY="1">
+    <EQUIV A_UNIT="RPM" B_UNIT="deg/sec" RELATION="a=b/6"/>
+    <EQUIV A_UNIT="rev/sec" B_UNIT="RPM" RELATION="a=b/60"/>
+	<EQUIV A_UNIT="deg/sec" B_UNIT="rad/sec" RELATION="a=b*180/3.1415926535897932"/>
+    <EQUIV A_UNIT="Hz" B_UNIT="rev/sec" RELATION="a=b"/>
+	<EQUIV A_UNIT="Time Constant (sec)" B_UNIT="rad/sec" RELATION="a=1/b"/>
+      <EQUIV A_UNIT="Time Constant (msec)" B_UNIT="Time Constant (sec)" RELATION="a=b*1000"/>
   </GROUP>
   <GROUP NAME="Area" DISPLAY="1">
     <EQUIV A_UNIT="acre" B_UNIT="ft²" RELATION="a=b/43560"/>
@@ -66,8 +79,9 @@
     <EQUIV A_UNIT="kilogram/meter³" B_UNIT="gram/meter³" RELATION="a=b/1000"/>
     <EQUIV A_UNIT="milligram/meter³" B_UNIT="gram/meter³" RELATION="a=b/0.001"/>
     <EQUIV A_UNIT="ounce/gallon" B_UNIT="pound/inch³" RELATION="a=b/0.0002705628"/>
-    <EQUIV A_UNIT="pound/foot³" B_UNIT="pound/inch³" RELATION="a=b/0.0005787037"/>
+    <EQUIV A_UNIT="pound/foot³" B_UNIT="pound/inch³" RELATION="a=b*1728"/>
     <EQUIV A_UNIT="ton/yard³" B_UNIT="pound/foot³" RELATION="a=b/43.29957"/>
+      <EQUIV A_UNIT="slug/foot³" B_UNIT="pound/foot³" RELATION="a=b/32.174"/>
   </GROUP>
   <GROUP NAME="Distance" DISPLAY="1">
     <EQUIV A_UNIT="inch" B_UNIT="foot" RELATION="a=b*12"/>
@@ -152,6 +166,9 @@
 	<EQUIV A_UNIT="ounce/hour" B_UNIT="gallon/hour" RELATION="a=b*128"/>
 	<EQUIV A_UNIT="ounce/minute" B_UNIT="ounce/hour" RELATION="a=b/60"/>
 	<EQUIV A_UNIT="ounce/second" B_UNIT="ounce/minute" RELATION="a=b/60"/>
+      <EQUIV A_UNIT="inch³/sec" B_UNIT="foot³/second" RELATION="a=b*1728"/>
+      <EQUIV A_UNIT="inch³/minute" B_UNIT="foot³/minute" RELATION="a=b*1728"/>
+      <EQUIV A_UNIT="inch³/hour" B_UNIT="foot³/hour" RELATION="a=b*1728"/>
   </GROUP>
   <GROUP NAME="Force" DISPLAY="1">
     <EQUIV A_UNIT="pound-force" B_UNIT="newton" RELATION="a=b/4.448222"/>
@@ -161,10 +178,18 @@
     <EQUIV A_UNIT="dyne" B_UNIT="millinewton" RELATION="a=b/0.01"/>
     <EQUIV A_UNIT="gram force" B_UNIT="millinewton" RELATION="a=b/9.80665"/>
     <EQUIV A_UNIT="kilogram force" B_UNIT="gram force" RELATION="a=b/1000"/>
+      <EQUIV A_UNIT="ton-force" B_UNIT="pound-force" RELATION="a=b/2000"/>
   </GROUP>
   <GROUP NAME="Inertia" DISPLAY="1">
-    <EQUIV A_UNIT="slug-foot²" B_UNIT="foot-pound force-second²" RELATION="a=b"/>
-    <EQUIV A_UNIT="pound-inch²" B_UNIT="foot-pound force-second²" RELATION="a=b*4633.08"/>
+    <EQUIV A_UNIT="slug-foot²" B_UNIT="foot-pound-second²" RELATION="a=b"/>
+    <EQUIV A_UNIT="pound-inch²" B_UNIT="foot-pound-second²" RELATION="a=b*4633.08"/>
+    <EQUIV A_UNIT="pound-foot²" B_UNIT="pound-inch²" RELATION="a=b/144"/>
+    <EQUIV A_UNIT="ounce-inch²" B_UNIT="pound-inch²" RELATION="a=b*16"/>
+    <EQUIV A_UNIT="inch-ounce-second²" B_UNIT="ounce-inch²" RELATION="a=b/386.09"/>
+	<EQUIV A_UNIT="inch-pound-second²" B_UNIT="pound-inch²" RELATION="a=b/386.09"/>
+    <EQUIV A_UNIT="kilogram-centimeter²" B_UNIT="pound-inch²" RELATION="a=b*2.926397"/>
+    <EQUIV A_UNIT="kilogram-meter²" B_UNIT="kilogram-centimeter²" RELATION="a=b/10000"/>
+    <EQUIV A_UNIT="gram-centimeter²" B_UNIT="kilogram-centimeter²" RELATION="a=b/0.001"/>
   </GROUP>
   <GROUP NAME="Light" DISPLAY="0">
     <EQUIV A_UNIT="flame" B_UNIT="foot-candles" RELATION="a=b/4"/>
@@ -219,7 +244,11 @@
     <EQUIV A_UNIT="inches of mercury" B_UNIT="millimeters of mercury" RELATION="a=b/25.4"/>
     <EQUIV A_UNIT="ton/inch²" B_UNIT="pound/inch²" RELATION="a=b/2000"/>
     <EQUIV A_UNIT="ton/foot²" B_UNIT="pound/foot²" RELATION="a=b/2000"/>
-  </GROUP>
+      <EQUIV A_UNIT="inches of water" B_UNIT="pound/inch²" RELATION="a=b/0.0361396333"/>
+      <EQUIV A_UNIT="millimeters of water" B_UNIT="inches of water" RELATION="a=b*25.4"/>
+      <EQUIV A_UNIT="hectopascal" B_UNIT="pascal" RELATION="a=b/100"/>
+        <EQUIV A_UNIT="feet of water" B_UNIT="inches of water" RELATION="a=b/12"/>
+    </GROUP>
   <GROUP NAME="Speed" DISPLAY="1">
     <EQUIV A_UNIT="speed of light" B_UNIT="meter/second" RELATION="a=b/299792458"/>
     <EQUIV A_UNIT="meter/minute" B_UNIT="meter/second" RELATION="a=b*60"/>
@@ -238,6 +267,9 @@
     <EQUIV A_UNIT="mile/minute" B_UNIT="mile/second" RELATION="a=b*60"/>
     <EQUIV A_UNIT="mile/hour" B_UNIT="mile/minute" RELATION="a=b*60"/>
     <EQUIV A_UNIT="knot" B_UNIT="meter/hour" RELATION="a=b/1852"/>
+      <EQUIV A_UNIT="inch/second" B_UNIT="foot/second" RELATION="a=b*12"/>
+      <EQUIV A_UNIT="inch/minute" B_UNIT="foot/minute" RELATION="a=b*12"/>
+      <EQUIV A_UNIT="inch/hour" B_UNIT="foot/hour" RELATION="a=b*12"/>
   </GROUP>
   <GROUP NAME="Temperature" DISPLAY="1">
     <EQUIV A_UNIT="celsius" B_UNIT="farenheit" RELATION="9/5*a=b-32"/>
@@ -272,8 +304,13 @@
     <EQUIV A_UNIT="pound-force inch" B_UNIT="pound-force foot" RELATION="a=b*12"/>
     <EQUIV A_UNIT="ounce-force inch" B_UNIT="pound-force inch" RELATION="a=b*16"/>
     <EQUIV A_UNIT="ounce-force foot" B_UNIT="pound-force foot" RELATION="a=b*16"/>
+        <EQUIV A_UNIT="newton centimeter" B_UNIT="newton meter" RELATION="a=b*100"/>
+    </GROUP>
+    <GROUP NAME="Kinematic Viscosity" DISPLAY="1">
+    <EQUIV A_UNIT="SSU" B_UNIT="centistoke" RELATION="a=b*4.55"/>
+      <EQUIV A_UNIT="stokes" B_UNIT="centistoke" RELATION="a=b/100"/>
   </GROUP>
-  <GROUP NAME="Volume" DISPLAY="1">
+<GROUP NAME="Volume" DISPLAY="1">
     <EQUIV A_UNIT="centimeter³" B_UNIT="inch³" RELATION="a=b/0.06102374"/>
     <EQUIV A_UNIT="foot³" B_UNIT="inch³" RELATION="a=b/1728"/>
     <EQUIV A_UNIT="meter³" B_UNIT="centimeter³" RELATION="a=b/1000000"/>
