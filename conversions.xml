@@ -102,6 +102,9 @@
     <EQUIV A_UNIT="lightyear" B_UNIT="kilometer" RELATION="a=b/9.460528e+012"/>
     <EQUIV A_UNIT="parsec" B_UNIT="lightyear" RELATION="a=b/3.26163"/> 
   </GROUP>
+      <GROUP NAME="Dynamic Viscosity" DISPLAY="1">
+      <EQUIV A_UNIT="Newton-second/meter²" B_UNIT="pound-second/foot²" RELATION="a=b/0.0208854342"/>
+    </GROUP>
   <GROUP NAME="Energy" DISPLAY="1">
     <EQUIV A_UNIT="horsepower-hour" B_UNIT="BTU" RELATION="a=b/2544.434"/>
     <EQUIV A_UNIT="gigajoule" B_UNIT="BTU" RELATION="a=b/947817.1"/>
@@ -224,7 +227,8 @@
     <EQUIV A_UNIT="pound-feet/minute" B_UNIT="pound-feet/second" RELATION="a=b*60"/>
     <EQUIV A_UNIT="horsepower" B_UNIT="pound-feet/second" RELATION="a=b/550"/>
     <EQUIV A_UNIT="calorie/second" B_UNIT="watt" RELATION="a=b/4.183076"/>
-  </GROUP>
+        <EQUIV A_UNIT="Pferdestärke" B_UNIT="kilowatt" RELATION="a=b/0.735499"/>
+    </GROUP>
   <GROUP NAME="Pressure" DISPLAY="1">
     <EQUIV A_UNIT="atmosphere" B_UNIT="bar" RELATION="a=b/1.01325"/>
     <EQUIV A_UNIT="megapascal" B_UNIT="bar" RELATION="a=b/10"/>

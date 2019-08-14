@@ -27,10 +27,11 @@ class Converter
 {
 public:
 	Converter(const XMLConversionFactors &xml);
-	~Converter();
+	~Converter() = default;
 
 	double Convert(const wxString &group, const wxString &inUnit,
 		const wxString &outUnit, const double &value);
+	void ClearCache();
 
 private:
 	const XMLConversionFactors &xml;

@@ -42,26 +42,6 @@ Converter::Converter(const XMLConversionFactors &xml) : xml(xml)
 
 //==========================================================================
 // Class:			Converter
-// Function:		~Converter
-//
-// Description:		Destructor for Converter class.
-//
-// Input Arguments:
-//		None
-//
-// Output Arguments:
-//		None
-//
-// Return Value:
-//		None
-//
-//==========================================================================
-Converter::~Converter()
-{
-}
-
-//==========================================================================
-// Class:			Converter
 // Function:		Convert
 //
 // Description:		Performs the specified consversion.
@@ -160,6 +140,28 @@ wxString Converter::GetConversion(const wxString &group, const wxString &inUnit,
 	conversions.insert(std::make_pair(code, conversionString));
 
 	return conversionString;
+}
+
+//==========================================================================
+// Class:			Converter
+// Function:		ClearCache
+//
+// Description:		Clears the stored conversion cache.  Required in case a
+//					conversion is modified.
+//
+// Input Arguments:
+//		None
+//
+// Output Arguments:
+//		None
+//
+// Return Value:
+//		None
+//
+//==========================================================================
+void Converter::ClearCache()
+{
+	conversions.clear();
 }
 
 //==========================================================================

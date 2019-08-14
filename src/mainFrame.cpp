@@ -324,7 +324,10 @@ void MainFrame::OnOptionsButton(wxCommandEvent& WXUNUSED(event))
 		return;
 
 	if (xml.Load())
+	{
+		converter.ClearCache();
 		EnforcePageConfiguration();
+	}
 }
 
 //==========================================================================
