@@ -12,6 +12,7 @@ Converter/Release/
 *.opensdf
 *.opendb
 *.db
+*.rc
 
 # Ignore GKT directories
 bin/
