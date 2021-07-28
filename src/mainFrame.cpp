@@ -403,6 +403,9 @@ void MainFrame::OnSwapButton(wxCommandEvent& WXUNUSED(event))
 //==========================================================================
 void MainFrame::OnClose(wxCloseEvent& event)
 {
+	if (!IsActive())
+		wxQueueEvent(this, new wxActivateEvent());// fix for application not closing if closed from taskbar when not focused; see https://forums.wxwidgets.org/viewtopic.php?t=43498
+
 	SaveConfiguration();
 	event.Skip();
 }
