@@ -13,6 +13,7 @@ Converter/Release/
 *.opendb
 *.db
 *.user
+*.rc
 
 # Ignore GKT directories
 bin/
