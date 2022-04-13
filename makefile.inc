@@ -41,18 +41,18 @@ CC = g++
 AR = ar rcs
 RANLIB = ranlib
 
-# wxWidgets include paths as system paths
-WX_CFLAGS:=$(shell wx-config --version=3.1 --debug=no --cppflags)
-
 # Compiler flags
-#CFLAGS = -g -Wall -Wextra -Werror $(INCDIRS) -O2 $(subst -I,-isystem,$(WX_CFLAGS))
-CFLAGS = -Wall -Wextra $(INCDIRS) -O2 $(subst -I,-isystem,$(WX_CFLAGS))
+CFLAGS = -Wall -Wextra -Werror $(INCDIRS) `wx-config --cppflags`
+CFLAGS_DEBUG = $(CFLAGS) -g
+CFLAGS_RELEASE = $(CFLAGS) -O2
 
 # Linker flags
 LDFLAGS = $(LIBDIRS) $(LIBS) `wx-config --libs`
 
 # Object file output directory
 OBJDIR = $(PWD)/.obj/
+OBJDIR_DEBUG = $(OBJDIR)debug/
+OBJDIR_RELEASE = $(OBJDIR)release/
 
 # Binary file output directory
 BINDIR = $(PWD)/bin/
