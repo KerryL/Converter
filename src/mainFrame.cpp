@@ -109,6 +109,7 @@ BEGIN_EVENT_TABLE(MainFrame, wxFrame)
 	EVT_BUTTON(idOptions,				MainFrame::OnOptionsButton)
 	EVT_BUTTON(idSwap,					MainFrame::OnSwapButton)
 	EVT_CLOSE(							MainFrame::OnClose)
+	EVT_SIZE(							MainFrame::OnSize)
 END_EVENT_TABLE();
 
 //==========================================================================
@@ -408,6 +409,37 @@ void MainFrame::OnClose(wxCloseEvent& event)
 
 	SaveConfiguration();
 	event.Skip();
+}
+
+//==========================================================================
+// Class:			MainFrame
+// Function:		OnSize
+//
+// Description:		Handles window size events.
+//
+// Input Arguments:
+//		event	= wxSizeEvent&
+//
+// Output Arguments:
+//		None
+//
+// Return Value:
+//		None
+//
+//==========================================================================
+void MainFrame::OnSize(wxSizeEvent& event)
+{
+	// This fixes a bug where the list box contents don't render properly on MSW if
+	// the list box position changes (due to the number of rows of tab controls changing).
+	wxFrame::OnSize(event);
+	auto inputBox(GetInputUnitsBox());
+	auto outputBox(GetOutputUnitsBox());
+
+	if (inputBox)
+		inputBox->Refresh();
+
+	if (outputBox)
+		outputBox->Refresh();
 }
 
 //==========================================================================

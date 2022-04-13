@@ -39,8 +39,8 @@ private:
 	void CreateControls();
 	void SetProperties();
 
-	void EnforcePageConfiguration(const bool &saveConfig = true);
-	void AddNotebookPage(const XMLConversionFactors::FactorGroup &group);
+	void EnforcePageConfiguration(const bool& saveConfig = true);
+	void AddNotebookPage(const XMLConversionFactors::FactorGroup& group);
 
 	wxNotebook *notebook;
 	wxTextCtrl *input;
@@ -61,13 +61,14 @@ private:
 		idSwap
 	};
 
-	void OnTextChangeEvent(wxCommandEvent &event);
-	void OnSelectionChangeEvent(wxCommandEvent &event);
-	void OnTabChangeEvent(wxNotebookEvent &event);
-	void OnOptionsButton(wxCommandEvent &event);
-	void OnClipboardButton(wxCommandEvent &event);
-	void OnSwapButton(wxCommandEvent &event);
-	void OnClose(wxCloseEvent &event);
+	void OnTextChangeEvent(wxCommandEvent& event);
+	void OnSelectionChangeEvent(wxCommandEvent& event);
+	void OnTabChangeEvent(wxNotebookEvent& event);
+	void OnOptionsButton(wxCommandEvent& event);
+	void OnClipboardButton(wxCommandEvent& event);
+	void OnSwapButton(wxCommandEvent& event);
+	void OnClose(wxCloseEvent& event);
+	void OnSize(wxSizeEvent& event);
 
 	void UpdateConversion();
 
