@@ -207,8 +207,7 @@ void MainFrame::EnforcePageConfiguration(const bool &saveConfig)
 		SaveConfiguration();
 	notebook->DeleteAllPages();
 
-	unsigned int i;
-	for (i = 0; i < xml.GroupCount(); i++)
+	for (unsigned int i = 0; i < xml.GroupCount(); i++)
 		AddNotebookPage(xml.GetGroup(i));
 
 	// This hack makes the notebook's multiple tabs proper (not sure why it's needed)
@@ -630,14 +629,13 @@ void MainFrame::LoadConfiguration()
 	wxWindow *page;
 	wxString tabText;
 	wxString selectedTab = config->Read(_T("Tabs/Selected"), wxEmptyString);
-	unsigned int i;
-	long selection(0);
-	for (i = 0; i < notebook->GetPageCount(); i++)
+	for (unsigned int i = 0; i < notebook->GetPageCount(); i++)
 	{
 		page = notebook->GetPage(i);
 		tabText = notebook->GetPageText(i);
 		if (config->HasGroup(_T("/Tabs/") + tabText))
 		{
+			long selection(0);
 			if (config->Read(_T("/Tabs/") + tabText + _T("/Input"), &selection))
 			{
 				if ((unsigned long)selection < static_cast<wxListBox*>(page->FindWindow(idInput))->GetCount())
