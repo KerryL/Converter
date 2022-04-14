@@ -29,11 +29,8 @@ class wxNotebookEvent;
 class MainFrame : public wxFrame
 {
 public:
-	// Constructor
 	MainFrame();
-
-	// Destructor
-	~MainFrame();
+	~MainFrame() = default;
 
 private:
 	void CreateControls();

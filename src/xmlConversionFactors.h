@@ -17,19 +17,17 @@
 
 // Standard C++ headers
 #include <vector>
+#include <memory>
 
 // wxWidgets headers
 #include <wx/wx.h>
-
-// wxWidgets forward declarations
-class wxXmlDocument;
-class wxXmlNode;
+#include <wx/xml/xml.h>
 
 class XMLConversionFactors
 {
 public:
 	XMLConversionFactors(const wxString &fileName);
-	~XMLConversionFactors();
+	~XMLConversionFactors() = default;
 
 	bool Load();
 	void Save() const;
@@ -68,7 +66,7 @@ public:
 
 private:
 	const wxString fileName;
-	wxXmlDocument *document;
+	std::unique_ptr<wxXmlDocument> document;
 
 	void ResetForLoad();
 	void AddNodePreserveFormatting(wxXmlNode *parent, wxXmlNode *child, const bool &alphabetize = false) const;
@@ -76,6 +74,8 @@ private:
 
 	static wxXmlNode* GetNewLineNode();
 	static wxXmlNode* GetIndentNode(const unsigned int &level);
+	
+	bool CreateEmptyDocument();
 
 	wxXmlNode* GetGroupNode(const wxString &name);
 

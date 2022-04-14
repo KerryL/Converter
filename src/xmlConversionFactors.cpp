@@ -15,9 +15,6 @@
 // Standard C++ headers
 #include <stdexcept>
 
-// wxWidgets
-#include <wx/xml/xml.h>
-
 // Local headers
 #include "xmlConversionFactors.h"
 
@@ -68,29 +65,8 @@ const wxString XMLConversionFactors::equationAttr(_T("RELATION"));
 //		None
 //
 //==========================================================================
-XMLConversionFactors::XMLConversionFactors(const wxString &fileName) : fileName(fileName), document(NULL)
+XMLConversionFactors::XMLConversionFactors(const wxString &fileName) : fileName(fileName)
 {
-}
-
-//==========================================================================
-// Class:			XMLConversionFactors
-// Function:		~XMLConversionFactors
-//
-// Description:		Destructor for XMLConversionFactors class.
-//
-// Input Arguments:
-//		None
-//
-// Output Arguments:
-//		None
-//
-// Return Value:
-//		None
-//
-//==========================================================================
-XMLConversionFactors::~XMLConversionFactors()
-{
-	delete document;
 }
 
 //==========================================================================
@@ -347,6 +323,30 @@ void XMLConversionFactors::DoErrorMessage(const wxString &message) const
 
 //==========================================================================
 // Class:			XMLConversionFactors
+// Function:		CreateEmptyDocument
+//
+// Description:		Creates empty conversion XML document.
+//
+// Input Arguments:
+//		None
+//
+// Output Arguments:
+//		None
+//
+// Return Value:
+//		bool, true if file written successfully
+//
+//==========================================================================
+bool XMLConversionFactors::CreateEmptyDocument()
+{
+	document = std::make_unique<wxXmlDocument>();
+	document->SetRoot(new wxXmlNode(wxXML_ELEMENT_NODE, rootName));
+	
+	return document->IsOk();
+}
+
+//==========================================================================
+// Class:			XMLConversionFactors
 // Function:		AddGroup
 //
 // Description:		Adds a group to the XML file.
@@ -363,6 +363,9 @@ void XMLConversionFactors::DoErrorMessage(const wxString &message) const
 //==========================================================================
 void XMLConversionFactors::AddGroup(const wxString &name)
 {
+	if (!document->IsOk())
+		CreateEmptyDocument();
+	
 	wxXmlNode *node = new wxXmlNode(wxXML_ELEMENT_NODE, groupNodeStr);
 	node->AddAttribute(nameAttr, name);
 	node->AddAttribute(displayAttr, _T("1"));
@@ -479,11 +482,11 @@ void XMLConversionFactors::SetGroupVisibility(const wxString &name, const bool &
 //==========================================================================
 void XMLConversionFactors::AddNodePreserveFormatting(wxXmlNode *parent, wxXmlNode *child, const bool &alphabetize) const
 {
-	bool needPreceedingNewLine = parent->GetChildren() == NULL;
+	const bool needPreceedingNewLine(parent->GetChildren() == nullptr);
 
 	if (alphabetize)
 	{
-		wxXmlNode *nodeAfterChild(NULL);
+		wxXmlNode *nodeAfterChild(nullptr);
 		if (GetNodeAfterAlphabetically(child->GetAttribute(nameAttr, wxEmptyString), parent, nodeAfterChild))
 			parent->InsertChild(child, nodeAfterChild);
 		else
@@ -751,8 +754,7 @@ void XMLConversionFactors::Save() const
 //==========================================================================
 void XMLConversionFactors::ResetForLoad()
 {
-	delete document;
-	document = new wxXmlDocument;
+	document = std::make_unique<wxXmlDocument>();
 
 	groups.clear();
 }

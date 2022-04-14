@@ -67,26 +67,6 @@ MainFrame::MainFrame() : wxFrame(NULL, wxID_ANY, wxEmptyString, wxDefaultPositio
 
 //==========================================================================
 // Class:			MainFrame
-// Function:		~MainFrame
-//
-// Description:		Destructor for MainFrame class.
-//
-// Input Arguments:
-//		None
-//
-// Output Arguments:
-//		None
-//
-// Return Value:
-//		None
-//
-//==========================================================================
-MainFrame::~MainFrame()
-{
-}
-
-//==========================================================================
-// Class:			MainFrame
 // Function:		Event Table
 //
 // Description:		Links GUI events with event handler functions.
@@ -138,34 +118,34 @@ void MainFrame::CreateControls()
 
 	notebook = new wxNotebook(mainPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNB_TOP | wxNB_MULTILINE);
 	notebook->SetMinSize(wxSize(400, 200));
-	mainSizer->Add(notebook, 1, wxGROW | wxALL, 5);
+	mainSizer->Add(notebook, wxSizerFlags().Proportion(1).Expand().Border(wxALL, 5));
 
 	const int spacing(5);
 	wxBoxSizer *topLowerSizer = new wxBoxSizer(wxHORIZONTAL);
 	wxButton *swapButton = new wxButton(mainPanel, idSwap, _T("Swap"), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
-	topLowerSizer->Add(swapButton, 0, wxRIGHT | wxGROW, spacing);
+	topLowerSizer->Add(swapButton, wxSizerFlags().Expand().Border(wxALL));
 
 	wxFlexGridSizer *lowerSizer = new wxFlexGridSizer(4, spacing, spacing);
-	topLowerSizer->Add(lowerSizer, 1, wxALL | wxGROW);
+	topLowerSizer->Add(lowerSizer, wxSizerFlags().Proportion(1).Expand().Border(wxALL));
+	lowerSizer->AddGrowableCol(1);
 
 	int textBoxWidth(120);
-	lowerSizer->Add(new wxStaticText(mainPanel, wxID_ANY, _T("Input:")));
+	lowerSizer->Add(new wxStaticText(mainPanel, wxID_ANY, _T("Input:")), wxSizerFlags().Align(wxALIGN_CENTER_VERTICAL));
 	input = new wxTextCtrl(mainPanel, wxID_ANY, _T("1"), wxDefaultPosition, wxSize(textBoxWidth, -1));
 	inUnits = new wxStaticText(mainPanel, wxID_ANY, wxEmptyString);
-	lowerSizer->Add(input, 1, wxGROW);
-	lowerSizer->Add(inUnits);
-	lowerSizer->Add(new wxButton(mainPanel, idOptions, _T("Options")), 0, wxALIGN_RIGHT);
+	lowerSizer->Add(input, wxSizerFlags().Expand());
+	lowerSizer->Add(inUnits, wxSizerFlags().Align(wxALIGN_CENTER_VERTICAL).Proportion(0));
+	lowerSizer->Add(new wxButton(mainPanel, idOptions, _T("Options")), wxSizerFlags().Expand());
 
-	lowerSizer->Add(new wxStaticText(mainPanel, wxID_ANY, _T("Output:")));
+	lowerSizer->Add(new wxStaticText(mainPanel, wxID_ANY, _T("Output:")), wxSizerFlags().Align(wxALIGN_CENTER_VERTICAL));
 	output = new wxTextCtrl(mainPanel, wxID_ANY, _T("1"), wxDefaultPosition, wxSize(textBoxWidth, -1), wxTE_READONLY);
 	//output->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));// This is the right color under MSW, not sure if it's necessary, though
 	outUnits = new wxStaticText(mainPanel, wxID_ANY, wxEmptyString);
-	lowerSizer->Add(output, 1);
-	lowerSizer->Add(outUnits);
-	lowerSizer->Add(new wxButton(mainPanel, idClipboard, _T("Clipboard")), 0, wxALIGN_RIGHT);
-	lowerSizer->AddGrowableCol(3);
+	lowerSizer->Add(output, wxSizerFlags().Expand());
+	lowerSizer->Add(outUnits, wxSizerFlags().Align(wxALIGN_CENTER_VERTICAL).Proportion(0));
+	lowerSizer->Add(new wxButton(mainPanel, idClipboard, _T("Clipboard")), wxSizerFlags().Expand());
 
-	mainSizer->Add(topLowerSizer, 0, wxALL | wxGROW, spacing);
+	mainSizer->Add(topLowerSizer, wxSizerFlags().Expand().Border(wxALL, spacing));
 
 	SetSizerAndFit(topSizer);
 }
@@ -375,8 +355,14 @@ void MainFrame::OnSwapButton(wxCommandEvent& WXUNUSED(event))
 {
 	wxListBox *in = GetInputUnitsBox();
 	wxListBox *out = GetOutputUnitsBox();
-
-	unsigned int inputSelection = in->GetSelection();
+	
+	if (!in || !out)// Can happen if there are no groups
+		return;
+	
+	const int inputSelection(in->GetSelection());
+	if (inputSelection == wxNOT_FOUND)
+		return;
+	
 	in->SetSelection(out->GetSelection());
 	out->SetSelection(inputSelection);
 
@@ -534,7 +520,7 @@ wxListBox* MainFrame::GetOutputUnitsBox() const
 wxWindow* MainFrame::GetControlOnActiveTab(int id) const
 {
 	if (notebook->GetPageCount() == 0)
-		return NULL;
+		return nullptr;
 
 	unsigned int i;
 	wxString groupName;
