@@ -155,10 +155,10 @@ void OptionsDialog::CreateControls()
 bool OptionsDialog::TransferDataFromWindow()
 {
 	bool hasUnits;
-	for (unsigned int i = 0; i < newGroups.size(); i++)
+	for (size_t i = 0; i < newGroups.size(); i++)
 	{
 		hasUnits = false;
-		for (unsigned int j = 0; j < newUnits.size(); j++)
+		for (size_t j = 0; j < newUnits.size(); j++)
 		{
 			if (newGroups[i].Cmp(newUnits[j].first) == 0)
 			{
@@ -175,18 +175,18 @@ bool OptionsDialog::TransferDataFromWindow()
 		}
 	}
 
-	for (unsigned int i = 0; i < newGroups.size(); i++)
+	for (size_t i = 0; i < newGroups.size(); i++)
 		xml.AddGroup(newGroups[i]);
 
 	try
 	{
-		for (unsigned int i = 0; i < newUnits.size(); i++)
+		for (size_t i = 0; i < newUnits.size(); i++)
 			xml.AddEquivalence(newUnits[i].first, newUnits[i].second);
 
-		for (unsigned int i = 0; i < changedUnits.size(); i++)
+		for (size_t i = 0; i < changedUnits.size(); i++)
 			xml.ChangeEquivalence(changedUnits[i].first, changedUnits[i].second);
 
-		for (unsigned int i = 0; i < groupList->GetCount(); i++)
+		for (size_t i = 0; i < groupList->GetCount(); i++)
 			xml.SetGroupVisibility(groupList->GetString(i), groupList->IsChecked(i));
 	}
 	catch (std::exception &e)
@@ -224,7 +224,7 @@ void OptionsDialog::OnNewGroup(wxCommandEvent& event)
 	if (groupName.IsEmpty())
 		return;
 
-	for (unsigned int i = 0; i < groupList->GetCount(); i++)
+	for (size_t i = 0; i < groupList->GetCount(); i++)
 	{
 		if (groupName.Cmp(groupList->GetString(i)) == 0)
 		{
@@ -356,7 +356,7 @@ void OptionsDialog::OnUnitDoubleClick(wxCommandEvent& WXUNUSED(event))
 	if (newConversion.Cmp(unitInfo.equation) != 0)
 	{
 		// Handle differently depending on whether or not the unit is already in the XML document
-		for (unsigned int i = 0; i < newUnits.size(); i++)
+		for (size_t i = 0; i < newUnits.size(); i++)
 		{
 			if (newUnits[i].first.Cmp(groupName) == 0 &&
 				newUnits[i].second.aUnit.Cmp(unitInfo.aUnit) == 0 &&
@@ -368,7 +368,7 @@ void OptionsDialog::OnUnitDoubleClick(wxCommandEvent& WXUNUSED(event))
 		}
 
 		// Check to see if we just changed our minds about how to change and existing unit
-		for (unsigned int i = 0; i < changedUnits.size(); i++)
+		for (size_t i = 0; i < changedUnits.size(); i++)
 		{
 			if (changedUnits[i].first.Cmp(groupName) == 0 &&
 				changedUnits[i].second.aUnit.Cmp(unitInfo.aUnit) == 0 &&
@@ -406,8 +406,7 @@ XMLConversionFactors::Equivalence OptionsDialog::GetUnitInfo(const wxString &gro
 	const wxString &unitName) const
 {
 	// Check units that we've previously selected to change, first
-	unsigned int i, j;
-	for (i = 0; i < changedUnits.size(); i++)
+	for (size_t i = 0; i < changedUnits.size(); i++)
 	{
 		if (changedUnits[i].first.Cmp(groupName) == 0 && 
 			changedUnits[i].second.aUnit.Cmp(unitName) == 0)
@@ -415,25 +414,25 @@ XMLConversionFactors::Equivalence OptionsDialog::GetUnitInfo(const wxString &gro
 	}
 
 	// or did we match B?
-	for (i = 0; i < changedUnits.size(); i++)
+	for (size_t i = 0; i < changedUnits.size(); i++)
 	{
 		if (changedUnits[i].first.Cmp(groupName) == 0 && 
 			changedUnits[i].second.bUnit.Cmp(unitName) == 0)
 			return changedUnits[i].second;
 	}
 
-	for (i = 0; i < xml.GroupCount(); i++)
+	for (size_t i = 0; i < xml.GroupCount(); i++)
 	{
 		if (xml.GetGroup(i).name.Cmp(groupName) == 0)
 		{
 			// Check all A units first
-			for (j = 0; j < xml.GetGroup(i).equiv.size(); j++)
+			for (size_t j = 0; j < xml.GetGroup(i).equiv.size(); j++)
 			{
 				if (xml.GetGroup(i).equiv[j].aUnit.Cmp(unitName) == 0)
 					return xml.GetGroup(i).equiv[j];
 			}
 
-			for (j = 0; j < xml.GetGroup(i).equiv.size(); j++)
+			for (size_t j = 0; j < xml.GetGroup(i).equiv.size(); j++)
 			{
 				if (xml.GetGroup(i).equiv[j].bUnit.Cmp(unitName) == 0)
 					return xml.GetGroup(i).equiv[j];
@@ -442,7 +441,7 @@ XMLConversionFactors::Equivalence OptionsDialog::GetUnitInfo(const wxString &gro
 	}
 
 	// If we didn't return yet, the group and/or unit must be new
-	for (i = 0; i < newUnits.size(); i++)
+	for (size_t i = 0; i < newUnits.size(); i++)
 	{
 		if (newUnits[i].first.Cmp(groupName) == 0 &&
 			newUnits[i].second.aUnit.Cmp(unitName) == 0)
@@ -450,7 +449,7 @@ XMLConversionFactors::Equivalence OptionsDialog::GetUnitInfo(const wxString &gro
 	}
 
 	// or did we match B?
-	for (i = 0; i < newUnits.size(); i++)
+	for (size_t i = 0; i < newUnits.size(); i++)
 	{
 		if (newUnits[i].first.Cmp(groupName) == 0 &&
 			newUnits[i].second.bUnit.Cmp(unitName) == 0)
@@ -511,7 +510,7 @@ void OptionsDialog::UpdateUnitList()
 		return;
 
 	wxArrayString units = GetCompleteUnitList(groupList->GetString(groupList->GetSelection()));
-	for (unsigned int i = 0; i < units.Count(); i++)
+	for (size_t i = 0; i < units.Count(); i++)
 		unitList->Append(units[i]);
 }
 
@@ -534,7 +533,7 @@ void OptionsDialog::UpdateUnitList()
 wxArrayString OptionsDialog::GetCompleteUnitList(const wxString &groupName) const
 {
 	bool isNewGroup(false);
-	for (unsigned int i = 0; i < newGroups.size(); i++)
+	for (size_t i = 0; i < newGroups.size(); i++)
 	{
 		if (newGroups[i].Cmp(groupName) == 0)
 			isNewGroup = true;
@@ -548,7 +547,7 @@ wxArrayString OptionsDialog::GetCompleteUnitList(const wxString &groupName) cons
 	}
 
 	wxArrayString newUnitList = GetNewUnits(groupName);
-	for (unsigned int i = 0; i < newUnitList.Count(); i++)
+	for (size_t i = 0; i < newUnitList.Count(); i++)
 		units.Add(newUnitList[i]);
 
 	return units;
@@ -573,7 +572,7 @@ wxArrayString OptionsDialog::GetCompleteUnitList(const wxString &groupName) cons
 wxArrayString OptionsDialog::GetNewUnits(const wxString &groupName) const
 {
 	wxArrayString newUnitList;
-	for (unsigned int i = 0; i < newUnits.size(); i++)
+	for (size_t i = 0; i < newUnits.size(); i++)
 	{
 		if (newUnits[i].first.Cmp(groupName) == 0)
 		{
@@ -593,7 +592,7 @@ wxArrayString OptionsDialog::GetNewUnits(const wxString &groupName) const
 	}
 
 	newUnitList.Sort();
-	for (unsigned int i = 1; i < newUnitList.Count(); i++)
+	for (size_t i = 1; i < newUnitList.Count(); i++)
 	{
 		if (newUnitList[i].Cmp(newUnitList[i - 1]) == 0)
 		{
@@ -602,7 +601,7 @@ wxArrayString OptionsDialog::GetNewUnits(const wxString &groupName) const
 			continue;
 		}
 
-		for (unsigned int j = 0; j < oldUnits.Count(); j++)
+		for (size_t j = 0; j < oldUnits.Count(); j++)
 		{
 			if (newUnitList[i].Cmp(oldUnits[j]) == 0)
 			{
@@ -874,9 +873,9 @@ wxChar OptionsDialog::AddUnitDialog::ParseEquationHalf(const wxString &half,
 {
 	bool foundVar(false);
 	wxChar lastOperator(' '), var(' ');
-	unsigned int start(0);
+	size_t start(0);
 
-	for (unsigned int i = 0; i < half.Len(); i++)
+	for (size_t i = 0; i < half.Len(); i++)
 	{
 		// If the next character is an operator or end of string, process the number
 		if (half[i] == 'a')
@@ -965,7 +964,7 @@ wxString OptionsDialog::AddUnitDialog::MultiplyTerms(const std::vector<wxString>
 		return terms[0];
 
 	double v, result(1.0);
-	for (unsigned int i = 0; i < terms.size(); i++)
+	for (size_t i = 0; i < terms.size(); i++)
 	{
 		if (!terms[i].ToDouble(&v))
 			throw errorHasErrors;
@@ -1034,7 +1033,7 @@ bool OptionsDialog::AddUnitDialog::RelationshipIsTooComplicated(const wxString &
 
 	if (relationship.Contains(_T("+")))
 	{
-		int plus((unsigned int)-1);
+		int plus(wxNOT_FOUND);
 		while (plus = relationship.find(_T("+"), plus + 1), plus != wxNOT_FOUND)
 		{
 			if (plus > 0 && relationship.Mid(plus - 1, 1).CmpNoCase(_T("e")) != 0)
@@ -1044,7 +1043,7 @@ bool OptionsDialog::AddUnitDialog::RelationshipIsTooComplicated(const wxString &
 
 	if (relationship.Contains(_T("-")))
 	{
-		int minus((unsigned int)-1);
+		int minus(wxNOT_FOUND);
 		while (minus = relationship.find(_T("-"), minus + 1), minus != wxNOT_FOUND)
 		{
 			if (minus > 0 && relationship.Mid(minus - 1, 1).CmpNoCase(_T("e")) != 0)

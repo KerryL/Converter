@@ -448,9 +448,8 @@ void MainFrame::UpdateConversion()
 	if (notebook->GetPageCount() == 0)
 		return;
 
-	unsigned int i;
 	wxString groupName, inUnit, outUnit;
-	for (i = 0; i < notebook->GetPageCount(); i++)
+	for (size_t i = 0; i < notebook->GetPageCount(); i++)
 	{
 		if (notebook->GetCurrentPage() == notebook->GetPage(i))
 		{
@@ -477,7 +476,7 @@ void MainFrame::UpdateConversion()
 	outUnits->SetLabel(outUnit);
 
 	double outValue = converter.Convert(groupName, inUnit, outUnit, inValue);
-	int orderOfMagnitude((unsigned int)floor(log10(outValue)));
+	int orderOfMagnitude(static_cast<int>(floor(log10(outValue))));
 
 	if (orderOfMagnitude < -3 ||// Value is very small
 		orderOfMagnitude > 6)// Value is very large
@@ -553,9 +552,8 @@ wxWindow* MainFrame::GetControlOnActiveTab(int id) const
 	if (notebook->GetPageCount() == 0)
 		return nullptr;
 
-	unsigned int i;
 	wxString groupName;
-	for (i = 0; i < notebook->GetPageCount(); i++)
+	for (size_t i = 0; i < notebook->GetPageCount(); i++)
 	{
 		if (notebook->GetCurrentPage() == notebook->GetPage(i))
 		{
@@ -629,7 +627,7 @@ void MainFrame::LoadConfiguration()
 	wxWindow *page;
 	wxString tabText;
 	wxString selectedTab = config->Read(_T("Tabs/Selected"), wxEmptyString);
-	for (unsigned int i = 0; i < notebook->GetPageCount(); i++)
+	for (size_t i = 0; i < notebook->GetPageCount(); i++)
 	{
 		page = notebook->GetPage(i);
 		tabText = notebook->GetPageText(i);
@@ -694,8 +692,7 @@ void MainFrame::SaveConfiguration()
 		wxCONFIG_USE_RELATIVE_PATH);
 
 	wxWindow *page;
-	unsigned int i;
-	for (i = 0; i < notebook->GetPageCount(); i++)
+	for (size_t i = 0; i < notebook->GetPageCount(); i++)
 	{
 		page = notebook->GetPage(i);
 		config->Write(_T("/Tabs/") + notebook->GetPageText(i) + _T("/Input"),

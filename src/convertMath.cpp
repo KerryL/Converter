@@ -61,8 +61,7 @@ unsigned int ConvertMath::CountSignificantDigits(const wxString &valueString)
 			break;
 	}
 
-	int i;
-	for (i = firstDigit + 1; i < lastDigit; i++)
+	for (int i = firstDigit + 1; i < lastDigit; i++)
 	{
 		if (trimmedValueString[i] == '.')
 		{
@@ -108,8 +107,7 @@ unsigned int ConvertMath::GetPrecision(const double &value,
 	KRLsprintf(s, sSize, "%0.*f", precision, value);
 
 	std::string number(s);
-	unsigned int i;
-	for (i = number.size() - 1; i > 0; i--)
+	for (size_t i = number.size() - 1; i > 0; i--)
 	{
 		if (s[i] == '0')
 			precision--;

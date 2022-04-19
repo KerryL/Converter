@@ -131,15 +131,15 @@ bool ExpressionTree::ParenthesesBalanced(const wxString &expression) const
 wxString ExpressionTree::ParseExpression(const wxString &expression)
 {
 	std::stack<wxString> operatorStack;
-	unsigned int i, advance;
 	bool lastWasOperator(true);
 	wxString errorString;
 
-	for (i = 0; i < expression.Len(); i++)
+	for (size_t i = 0; i < expression.Len(); i++)
 	{
 		if (expression.Mid(i, 1).Trim().IsEmpty())
 			continue;
 
+		unsigned int advance;
 		errorString = ParseNext(expression.Mid(i), lastWasOperator, advance, operatorStack);
 		if (!errorString.IsEmpty())
 			return errorString;
@@ -162,7 +162,9 @@ wxString ExpressionTree::ParseExpression(const wxString &expression)
 //		expression	= const wxString&
 //
 // Output Arguments:
-//		None
+//		lastWasOperator	= bool&
+//		advance			= unsigned int&
+//		operatorStack	= std::stack<wxString>&
 //
 // Return Value:
 //		wxString containing any errors
@@ -390,7 +392,7 @@ bool ExpressionTree::NextIsNumber(const wxString &s, unsigned int *stop, const b
 		(int(s[0]) >= int('0') && int(s[0]) <= int('9')) ||
 		(s[0] == '-' && lastWasOperator && NextIsNumber(s.Mid(1), NULL, false)))
 	{
-		unsigned int i;
+		size_t i;
 		for (i = 1; i < s.Len(); i++)
 		{
 			if (s[i] == '.')
@@ -747,273 +749,6 @@ bool ExpressionTree::EvaluateNext(const wxString &next, std::stack<double> &stac
 
 	return false;
 }
-/*
-//==========================================================================
-// Class:			ExpressionTree
-// Function:		BeginningMatchesNoCase
-//
-// Description:		Determines if the target string matches the beginning of
-//					string s.  Populates the length argument if provided and
-//					if a match is found.
-//
-// Input Arguments:
-//		s		= const wxString&
-//		target	= const wxString&
-//
-// Output Arguments:
-//		length	= unsigned int* (optional)
-//
-// Return Value:
-//		bool, true for match
-//
-//==========================================================================
-bool ExpressionTree::BeginningMatchesNoCase(const wxString &s, const wxString &target,
-	unsigned int *length)
-{
-	if (s.Len() < target.Len())
-		return false;
-
-	if (s.Mid(0, target.Len()).CmpNoCase(target) != 0)
-		return false;
-
-	if (length)
-		*length = target.Len();
-
-	return true;
-}
-
-//==========================================================================
-// Class:			ExpressionTree
-// Function:		StringAdd
-//
-// Description:		Performs arithmatic on the arguments, returns a string.
-//
-// Input Arguments:
-//		first	= const wxString&
-//		second	= const double&
-//
-// Output Arguments:
-//		None
-//
-// Return Value:
-//		wxString
-//
-//==========================================================================
-wxString ExpressionTree::StringAdd(const wxString &first, const double &second) const
-{
-	return wxString::Format("%0.*f+%s",
-		ConvertMath::GetPrecision(second, printfPrecision), second, first.c_str());
-}
-
-//==========================================================================
-// Class:			ExpressionTree
-// Function:		StringAdd
-//
-// Description:		Performs arithmatic on the arguments, returns a string.
-//
-// Input Arguments:
-//		first	= const double&
-//		second	= const wxString&
-//
-// Output Arguments:
-//		None
-//
-// Return Value:
-//		wxString
-//
-//==========================================================================
-wxString ExpressionTree::StringAdd(const double &first, const wxString &second) const
-{
-	return wxString::Format("%s+%0.*f", second.c_str(),
-		ConvertMath::GetPrecision(first, printfPrecision), first);
-}
-
-//==========================================================================
-// Class:			ExpressionTree
-// Function:		StringSubtract
-//
-// Description:		Performs arithmatic on the arguments, returns a string.
-//
-// Input Arguments:
-//		first	= const wxString&
-//		second	= const double&
-//
-// Output Arguments:
-//		None
-//
-// Return Value:
-//		wxString
-//
-//==========================================================================
-wxString ExpressionTree::StringSubtract(const wxString &first, const double &second) const
-{
-	return wxString::Format("%0.*f-%s",
-		ConvertMath::GetPrecision(second, printfPrecision), second, first.c_str());
-}
-
-//==========================================================================
-// Class:			ExpressionTree
-// Function:		StringSubtract
-//
-// Description:		Performs arithmatic on the arguments, returns a string.
-//
-// Input Arguments:
-//		first	= const double&
-//		second	= const wxString&
-//
-// Output Arguments:
-//		None
-//
-// Return Value:
-//		wxString
-//
-//==========================================================================
-wxString ExpressionTree::StringSubtract(const double &first, const wxString &second) const
-{
-	return wxString::Format("%s-%0.*f", second.c_str(),
-		ConvertMath::GetPrecision(first, printfPrecision), first);
-}
-
-//==========================================================================
-// Class:			ExpressionTree
-// Function:		StringMultiply
-//
-// Description:		Performs arithmatic on the arguments, returns a string.
-//
-// Input Arguments:
-//		first	= const wxString&
-//		second	= const double&
-//
-// Output Arguments:
-//		None
-//
-// Return Value:
-//		wxString
-//
-//==========================================================================
-wxString ExpressionTree::StringMultiply(const wxString &first, const double &second) const
-{
-	std::vector<std::pair<int, double> > terms(FindPowersAndCoefficients(BreakApartTerms(first)));
-	unsigned int i;
-	wxString expression;
-	for (i = 0; i < terms.size(); i++)
-		AddToExpressionString(expression, terms[i].second * second, terms[i].first);
-
-	return expression;
-}
-
-//==========================================================================
-// Class:			ExpressionTree
-// Function:		StringMultiply
-//
-// Description:		Performs arithmatic on the arguments, returns a string.
-//
-// Input Arguments:
-//		first	= const wxString&
-//		second	= const wxString&
-//
-// Output Arguments:
-//		None
-//
-// Return Value:
-//		wxString
-//
-//==========================================================================
-wxString ExpressionTree::StringMultiply(const wxString &first, const wxString &second) const
-{
-	std::vector<std::pair<int, double> > firstTerms(FindPowersAndCoefficients(BreakApartTerms(first)));
-	std::vector<std::pair<int, double> > secondTerms(FindPowersAndCoefficients(BreakApartTerms(second)));
-	std::vector<std::pair<int, double> > terms;
-	unsigned int i, j;
-	for (i = 0; i < firstTerms.size(); i++)
-	{
-		for (j = 0; j < secondTerms.size(); j++)
-			terms.push_back(std::pair<int, double>(firstTerms[i].first + secondTerms[j].first, firstTerms[i].second * secondTerms[j].second));
-	}
-
-	wxString expression;
-	for (i = 0; i < terms.size(); i++)
-		AddToExpressionString(expression, terms[i].second, terms[i].first);
-
-	return expression;
-}
-
-//==========================================================================
-// Class:			ExpressionTree
-// Function:		StringMultiply
-//
-// Description:		Performs arithmatic on the arguments, returns a string.
-//
-// Input Arguments:
-//		first	= const double&
-//		second	= const wxString&
-//
-// Output Arguments:
-//		None
-//
-// Return Value:
-//		wxString
-//
-//==========================================================================
-wxString ExpressionTree::StringMultiply(const double &first, const wxString &second) const
-{
-	return StringMultiply(second, first);
-}
-
-//==========================================================================
-// Class:			ExpressionTree
-// Function:		StringDivide
-//
-// Description:		Performs arithmatic on the arguments, returns a string.
-//
-// Input Arguments:
-//		first	= const double&
-//		second	= const wxString&
-//
-// Output Arguments:
-//		None
-//
-// Return Value:
-//		wxString
-//
-//==========================================================================
-wxString ExpressionTree::StringDivide(const double &first, const wxString &second) const
-{
-	return StringMultiply(second, 1.0 / first);
-}
-
-//==========================================================================
-// Class:			ExpressionTree
-// Function:		StringPower
-//
-// Description:		Performs arithmatic on the arguments, returns a string.
-//					For positive powers, expand and do the multiplication.
-//					For negative powers (i.e. z-domain stuff), add them to the
-//					string.  Assumes exponent is an integer.
-//
-// Input Arguments:
-//		first	= const double&
-//		second	= const wxString&
-//
-// Output Arguments:
-//		None
-//
-// Return Value:
-//		wxString
-//
-//==========================================================================
-wxString ExpressionTree::StringPower(const double &first, const wxString &second) const
-{
-	if (first < 0.0)
-		return wxString::Format("%s^%i", second.c_str(), (int)first);
-
-	wxString result(second);
-	unsigned int i;
-	for (i = 1; i < (unsigned int)first; i++)
-		result = StringMultiply(result, second);
-
-	return result;
-}*/
 
 //==========================================================================
 // Class:			ExpressionTree
@@ -1035,14 +770,14 @@ wxString ExpressionTree::StringPower(const double &first, const wxString &second
 wxArrayString ExpressionTree::BreakApartTerms(const wxString &s)
 {
 	wxArrayString terms;
-	unsigned int start(0), end(0);
-	while (end != (unsigned int)wxNOT_FOUND)
+	size_t start(0), end(0);
+	while (end != static_cast<size_t>(wxNOT_FOUND))
 	{
 		end = FindEndOfNextTerm(s, start);
 
 		if (start > 0 && s.Mid(start - 1, 1).Cmp(_T("-")) == 0)
 		{
-			if (end != (unsigned int)wxNOT_FOUND)
+			if (end != static_cast<size_t>(wxNOT_FOUND))
 				terms.Add(s.Mid(start - 1, end + 1));
 			else
 				terms.Add(s.Mid(start - 1));
@@ -1070,12 +805,12 @@ wxArrayString ExpressionTree::BreakApartTerms(const wxString &s)
 //		None
 //
 // Return Value:
-//		unsigned int
+//		size_t
 //
 //==========================================================================
-unsigned int ExpressionTree::FindEndOfNextTerm(const wxString &s, const unsigned int &start)
+size_t ExpressionTree::FindEndOfNextTerm(const wxString &s, const unsigned int &start)
 {
-	unsigned int end, plusEnd, minusEnd, parenCount(0);
+	size_t end, plusEnd, minusEnd, parenCount(0);
 
 	plusEnd = s.Mid(start).Find('+');
 	minusEnd = s.Mid(start).Find('-');
@@ -1083,34 +818,33 @@ unsigned int ExpressionTree::FindEndOfNextTerm(const wxString &s, const unsigned
 	if (minusEnd < plusEnd && start + minusEnd > 0 && NextIsOperator(s[start + minusEnd - 1]))
 	{
 		unsigned int nextMinus = s.Mid(start + minusEnd + 1).Find('-');
-		if (nextMinus != (unsigned int)wxNOT_FOUND)
+		if (nextMinus != static_cast<size_t>(wxNOT_FOUND))
 			minusEnd += nextMinus + 1;
 		else
 			minusEnd = nextMinus;
 	}
 	end = std::min(plusEnd, minusEnd);
 
-	if (end != (unsigned int)wxNOT_FOUND && NextIsOperator(s.Mid(start + end - 1)))
+	if (end != static_cast<size_t>(wxNOT_FOUND) && NextIsOperator(s.Mid(start + end - 1)))
 	{
 		plusEnd = s.Mid(start + end).Find('+');
 		minusEnd = s.Mid(start + end).Find('-');
 		end += std::min(plusEnd, minusEnd);
 	}
-	else if (end != (unsigned int)wxNOT_FOUND && s.Mid(start + end - 1)[0] == 'e')
+	else if (end != static_cast<size_t>(wxNOT_FOUND) && s.Mid(start + end - 1)[0] == 'e')
 	{
 		plusEnd = s.Mid(start + end + 1).Find('+');
 		minusEnd = s.Mid(start + end + 1).Find('-');
 		unsigned int endAdjust = std::min(plusEnd, minusEnd);
-		if (endAdjust != (unsigned int)wxNOT_FOUND)
+		if (endAdjust != static_cast<size_t>(wxNOT_FOUND))
 			end += endAdjust;
 		else
 			end = endAdjust;
 	}
 
-	if (end != (unsigned int)wxNOT_FOUND)
+	if (end != static_cast<size_t>(wxNOT_FOUND))
 	{
-		unsigned int i;
-		for (i = start; i < start + end; i++)
+		for (size_t i = start; i < start + end; i++)
 		{
 			if (s[i] == '(')
 				parenCount++;
@@ -1129,8 +863,8 @@ unsigned int ExpressionTree::FindEndOfNextTerm(const wxString &s, const unsigned
 				end++;
 			}
 
-			unsigned int newEnd = FindEndOfNextTerm(s, start + end);
-			if (newEnd == (unsigned int)wxNOT_FOUND)
+			auto newEnd = FindEndOfNextTerm(s, start + end);
+			if (newEnd == static_cast<size_t>(wxNOT_FOUND))
 				return newEnd;
 			else
 				end += newEnd;
@@ -1139,152 +873,6 @@ unsigned int ExpressionTree::FindEndOfNextTerm(const wxString &s, const unsigned
 
 	return end;
 }
-/*
-//==========================================================================
-// Class:			ExpressionTree
-// Function:		FindPowersAndCoefficients
-//
-// Description:		Breaks a (previously separated) set of terms into a coefficient
-//					and a power of the algebraic variable.
-//
-// Input Arguments:
-//		terms	= const wxArrayString&
-//
-// Output Arguments:
-//		None
-//
-// Return Value:
-//		std::vector<std::pair<int, double> >
-//
-//==========================================================================
-std::vector<std::pair<int, double> > ExpressionTree::FindPowersAndCoefficients(const wxArrayString &terms)
-{
-	std::vector<std::pair<int, double> > processedTerms;
-	unsigned int i, start, end;
-	int count;
-	double temp, coefficient;
-	for (i = 0; i < terms.Count(); i++)
-	{
-		count = 0;
-		start = 0;
-		end = 0;
-		coefficient = 1.0;
-		while (end != (unsigned int)wxNOT_FOUND)
-		{
-			end = terms[i].Mid(start).Find('*');
-			if (terms[i].Mid(start, end).ToDouble(&temp))
-				coefficient = temp;
-			else
-			{
-				if (terms[i][0] == '-' && coefficient == 1.0)
-				{
-					coefficient = -1.0;
-					start++;
-					if (end != (unsigned int)wxNOT_FOUND)
-						end++;
-				}
-
-				count += GetTermPower(terms[i].Mid(start), start, end);
-			}
-			start += end + 1;
-		}
-
-		processedTerms.push_back(std::pair<int, double>(count, coefficient));
-	}
-
-	return processedTerms;
-}
-
-//==========================================================================
-// Class:			ExpressionTree
-// Function:		GetTermPower
-//
-// Description:		Returns the value of the power for the specified term
-//					(power of s or z).
-//
-// Input Arguments:
-//		s		= const wxString&
-//
-// Output Arguments:
-//		start	= unsigned int&
-//		end		= unsigned int&
-//
-// Return Value:
-//		int
-//
-//==========================================================================
-int ExpressionTree::GetTermPower(const wxString &s, unsigned int &start, unsigned int &end)
-{
-	long power;
-	if (s[0] == 's' || s[0] == 'z')
-	{
-		power = s.Find('^');
-		if (power == wxNOT_FOUND)
-			return 1;
-		else
-		{
-			start += power + 1;
-			end = s.Find('*');
-			if (s.Mid(power + 1, end).ToLong(&power))
-				return power;
-		}
-	}
-
-	return 0;
-}
-
-//==========================================================================
-// Class:			ExpressionTree
-// Function:		AddToExpressionString
-//
-// Description:		Adds the next term to the string.  Handles signed terms,
-//					cleans up for terms with coefficient == 1.0, etc.
-//
-// Input Arguments:
-//		coefficient	= const double&
-//		power		= const int&
-//
-// Output Arguments:
-//		expression	= wxString&
-//
-// Return Value:
-//		None
-//
-//==========================================================================
-void ExpressionTree::AddToExpressionString(wxString &expression,
-	const double &coefficient, const int &power) const
-{
-	if (coefficient == 1.0 && power != 0)
-	{
-		if (!expression.IsEmpty())
-			expression.Append(_T("+"));
-		if (power == 1)
-				expression.Append(_T("s"));
-		else
-			expression.Append(wxString::Format("s^%i", power));
-	}
-	else if (expression.IsEmpty())
-	{
-		if (power == 0)
-			expression.Printf("%0.*f", ConvertMath::GetPrecision(coefficient, printfPrecision), coefficient);
-		else if (power == 1)
-			expression.Printf("%0.*f*s", ConvertMath::GetPrecision(coefficient, printfPrecision), coefficient);
-		else
-			expression.Printf("%0.*f*s^%i", ConvertMath::GetPrecision(coefficient, printfPrecision), coefficient, power);
-	}
-	else
-	{
-		if (power == 0)
-			expression.Append(wxString::Format("%+0.*f",
-				ConvertMath::GetPrecision(coefficient, printfPrecision), coefficient));
-		else if (power == 1)
-			expression.Append(wxString::Format("%+0.*f*s",
-				ConvertMath::GetPrecision(coefficient, printfPrecision), coefficient));
-		else
-			expression.Append(wxString::Format("%+0.*f*s^%i",
-				ConvertMath::GetPrecision(coefficient, printfPrecision), coefficient, power));
-	}
-}*/
 
 //==========================================================================
 // Class:			ExpressionTree
@@ -1319,7 +907,6 @@ wxString ExpressionTree::SolveForString(wxString expression, const wxString &x, 
 
 	wxArrayString lhTerms, rhTerms;
 	wxString errorString;
-	unsigned int i;
 	bool changed(true);
 	while ((lhs.Cmp(x) != 0 || rhs.Contains(x)) && changed)
 	{
@@ -1328,7 +915,7 @@ wxString ExpressionTree::SolveForString(wxString expression, const wxString &x, 
 		lhTerms = BreakApartTerms(lhs);
 		rhTerms = BreakApartTerms(rhs);
 
-		for (i = 0; i < rhTerms.Count(); i++)
+		for (size_t i = 0; i < rhTerms.Count(); i++)
 		{
 			if (rhTerms[i].Contains(x))
 			{
@@ -1341,7 +928,7 @@ wxString ExpressionTree::SolveForString(wxString expression, const wxString &x, 
 				return _T("Expression is too complicated!");
 		}
 
-		for (i = 0; i < lhTerms.Count(); i++)
+		for (size_t i = 0; i < lhTerms.Count(); i++)
 		{
 			if (!lhTerms[i].Contains(x))
 			{
@@ -1410,7 +997,7 @@ wxString ExpressionTree::SolveForString(wxString expression, const wxString &x, 
 //==========================================================================
 bool ExpressionTree::Clean(wxString &term, const wxString &x)
 {
-	unsigned int xLocation = term.Find(x);
+	int xLocation = term.Find(x);
 
 	if (xLocation > 0)
 	{
@@ -1450,19 +1037,18 @@ wxString ExpressionTree::CrossMultiplySimplify(wxString &lhs, wxArrayString &rhs
 		return _T("Left-hand side must contain '") + x + _T("'.");
 
 	wxString start, end;
-	unsigned int xLocation = lhs.Find(x);
+	int xLocation = lhs.Find(x);
 	start = lhs.Mid(0, xLocation);
 	if (lhs.Last() == x)
 		end = wxEmptyString;
 	else
 		end = lhs.Mid(xLocation + x.Len());
 
-	unsigned int i;
 	if (end.Len() > 0)
 	{
 		if (end[0] == '*')
 		{
-			for (i = 0; i < rhs.Count(); i++)
+			for (size_t i = 0; i < rhs.Count(); i++)
 			{
 				rhs[i].Prepend(_T("("));
 				rhs[i].Append(_T(")/(") + end.Mid(1) + _T(")"));
@@ -1470,7 +1056,7 @@ wxString ExpressionTree::CrossMultiplySimplify(wxString &lhs, wxArrayString &rhs
 		}
 		else if (end[0] == '/')
 		{
-			for (i = 0; i < rhs.Count(); i++)
+			for (size_t i = 0; i < rhs.Count(); i++)
 			{
 				rhs[i].Prepend(_T("("));
 				rhs[i].Append(_T(")*(") + end.Mid(1) + _T(")"));
@@ -1484,7 +1070,7 @@ wxString ExpressionTree::CrossMultiplySimplify(wxString &lhs, wxArrayString &rhs
 	{
 		if (start.Last() == '*')
 		{
-			for (i = 0; i < rhs.Count(); i++)
+			for (size_t i = 0; i < rhs.Count(); i++)
 			{
 				rhs[i].Prepend(_T("("));
 				rhs[i].Append(_T(")/(") + start.Mid(0, start.Len() - 1) + _T(")"));
@@ -1525,8 +1111,7 @@ wxString ExpressionTree::CrossMultiplySimplify(wxString &lhs, wxArrayString &rhs
 wxString ExpressionTree::AssembleTerms(const wxArrayString &terms) const
 {
 	wxString e(terms[0]);
-	unsigned int i;
-	for (i = 1; i < terms.Count(); i++)
+	for (size_t i = 1; i < terms.Count(); i++)
 	{
 		if (terms[i][0] == '-' || terms[i][0] == '+')
 			e += terms[i];
@@ -1557,8 +1142,7 @@ wxString ExpressionTree::AssembleTerms(const wxArrayString &terms) const
 bool ExpressionTree::CombinedTerm(const wxString &term) const
 {
 	wxString variables;
-	unsigned int i;
-	for (i = 0; i < term.Len(); i++)
+	for (size_t i = 0; i < term.Len(); i++)
 	{
 		if ((term[i] == 'a' || term[i] == 'b' || term[i] == 'x') &&
 			!variables.Contains(term.Mid(i, 1)))

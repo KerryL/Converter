@@ -256,10 +256,9 @@ bool XMLConversionFactors::ReadEquivNode(wxXmlNode *node, Equivalence &equiv)
 //==========================================================================
 bool XMLConversionFactors::DuplicateGroupsExist() const
 {
-	unsigned int i, j;
-	for (i = 1; i < groups.size(); i++)
+	for (size_t i = 1; i < groups.size(); i++)
 	{
-		for (j = i + 1; j < groups.size(); j++)
+		for (size_t j = i + 1; j < groups.size(); j++)
 		{
 			if (groups[i].name.CmpNoCase(groups[j].name) == 0)
 			{
@@ -290,8 +289,7 @@ bool XMLConversionFactors::DuplicateGroupsExist() const
 //==========================================================================
 XMLConversionFactors::FactorGroup XMLConversionFactors::GetGroup(const wxString &name) const
 {
-	unsigned int i;
-	for (i = 0; i < groups.size(); i++)
+	for (size_t i = 0; i < groups.size(); i++)
 	{
 		if (groups[i].name.Cmp(name) == 0)
 			return groups[i];
@@ -498,7 +496,7 @@ void XMLConversionFactors::AddNodePreserveFormatting(wxXmlNode *parent, wxXmlNod
 	if (needPreceedingNewLine)
 		parent->InsertChild(GetNewLineNode(), child);
 
-	unsigned int depth = child->GetDepth();
+	int depth = child->GetDepth();
 	// TODO:  If preceeding node is not a newline (or is whitespace?), adjust depth
 	/*if ()
 		depth--;*/
@@ -683,8 +681,7 @@ wxXmlNode* XMLConversionFactors::Equivalence::ToXmlNode() const
 wxArrayString XMLConversionFactors::FactorGroup::GetUnitList(const bool &sort) const
 {
 	wxArrayString unitList;
-	unsigned int i;
-	for (i = 0; i < equiv.size(); i++)
+	for (size_t i = 0; i < equiv.size(); i++)
 	{
 		unitList.Add(equiv[i].aUnit);
 		unitList.Add(equiv[i].bUnit);
@@ -692,7 +689,7 @@ wxArrayString XMLConversionFactors::FactorGroup::GetUnitList(const bool &sort) c
 	if (sort)
 		unitList.Sort();
 	assert(unitList.Count() > 0);
-	for (i = 1; i < unitList.Count(); i++)
+	for (size_t i = 1; i < unitList.Count(); i++)
 	{
 		if (unitList[i].Cmp(unitList[i - 1]) == 0)
 		{

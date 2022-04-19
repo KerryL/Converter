@@ -185,9 +185,8 @@ void Converter::ClearCache()
 wxString Converter::CreateConversion(const wxString &group, const wxString &inUnit,
 		const wxString &outUnit) const
 {
-	unsigned int i;
 	wxString expression;
-	for (i = 0; i < xml.GroupCount(); i++)
+	for (unsigned int i = 0; i < xml.GroupCount(); i++)
 	{
 		if (xml.GetGroup(i).name.Cmp(group) == 0)
 		{
@@ -289,7 +288,6 @@ wxString Converter::FindConversionPath(const XMLConversionFactors::FactorGroup &
 	q.push(graph.GetNode(outUnit));
 	wxASSERT(q.front());
 	q.front()->visited = true;
-	unsigned int j;
 	std::set<Converter::ConversionGraph::GraphNode*>::iterator i;
 	while (!q.empty())
 	{
@@ -304,7 +302,7 @@ wxString Converter::FindConversionPath(const XMLConversionFactors::FactorGroup &
 			{
 				(*i)->visited = true;
 				(*i)->path = n->path;
-				for (j = 0; j < group.equiv.size(); j++)
+				for (size_t j = 0; j < group.equiv.size(); j++)
 				{
 					if (group.equiv[j].aUnit.Cmp((*i)->name) == 0 &&
 						group.equiv[j].bUnit.Cmp(n->name) == 0)
@@ -381,12 +379,11 @@ Converter::ConversionGraph::ConversionGraph(const XMLConversionFactors::FactorGr
 {
 	GraphNode *node;
 	wxArrayString unitList = group.GetUnitList();
-	unsigned int i, j;
-	for (i = 0; i < unitList.Count(); i++)
+	for (size_t i = 0; i < unitList.Count(); i++)
 	{
 		node = GetOrCreateNode(unitList[i]);
 
-		for (j = 0; j < group.equiv.size(); j++)
+		for (size_t j = 0; j < group.equiv.size(); j++)
 		{
 			if (group.equiv[j].aUnit.Cmp(node->name) == 0)
 				node->AddNeighbor(GetOrCreateNode(group.equiv[j].bUnit));
