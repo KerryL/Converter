@@ -835,7 +835,7 @@ size_t ExpressionTree::FindEndOfNextTerm(const wxString &s, const unsigned int &
 	{
 		plusEnd = s.Mid(start + end + 1).Find('+');
 		minusEnd = s.Mid(start + end + 1).Find('-');
-		unsigned int endAdjust = std::min(plusEnd, minusEnd);
+		size_t endAdjust = std::min(plusEnd, minusEnd);
 		if (endAdjust != static_cast<size_t>(wxNOT_FOUND))
 			end += endAdjust;
 		else
