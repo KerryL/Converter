@@ -76,6 +76,10 @@ private:
 	void LoadConfiguration();
 	void SaveConfiguration();
 
+	std::vector<wxRect> GetDesktopArea() const;
+	bool IsWithin(const std::vector<wxRect>& desktop, const wxRect& window) const;
+	bool IsWithin(const wxRect& clientArea, const wxRect& window) const;
+
 	DECLARE_EVENT_TABLE();
 };
 

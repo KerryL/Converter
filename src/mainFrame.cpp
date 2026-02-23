@@ -19,6 +19,7 @@
 #include <wx/notebook.h>
 #include <wx/clipbrd.h>
 #include <wx/fileconf.h>
+#include <wx/display.h>
 
 // Local headers
 #include "mainFrame.h"
@@ -655,7 +656,10 @@ void MainFrame::LoadConfiguration()
 		config->Read(_T("/Window/Height"), &h) &&
 		config->Read(_T("/Window/XPosition"), &x) &&
 		config->Read(_T("/Window/YPosition"), &y))
-		SetSize(x, y, w, h);
+	{
+		if (IsWithin(GetDesktopArea(), wxRect(x, y, w, h)))
+			SetSize(x, y, w, h);
+	}
 
 	input->ChangeValue(config->Read(_T("/Other/InputValue"), _T("1")));
 
@@ -715,4 +719,88 @@ void MainFrame::SaveConfiguration()
 
 	wxCopyFile(transactionFileName, configFileName);
 	wxRemoveFile(transactionFileName);
+}
+
+//==========================================================================
+// Class:			MainFrame
+// Function:		GetDesktopArea
+//
+// Description:		Gets the total desktop area.
+//
+// Input Arguments:
+//		None
+//
+// Output Arguments:
+//		None
+//
+// Return Value:
+//		std::vector<wxRect>
+//
+//==========================================================================
+std::vector<wxRect> MainFrame::GetDesktopArea() const
+{
+	std::vector<wxRect> desktopArea;
+	const unsigned int count(wxDisplay::GetCount());
+	for (unsigned int i = 0; i < count; ++i)
+	{
+		wxDisplay display(i);
+		desktopArea.push_back(display.GetClientArea());
+	}
+
+	return desktopArea;
+}
+
+//==========================================================================
+// Class:			MainFrame
+// Function:		IsWithin
+//
+// Description:		Returns true if a significant part of the window is within
+//					the desktop area.
+//
+// Input Arguments:
+//		desktop	= const std::vector<wxRect>&
+//		window	= const wxRect&
+//
+// Output Arguments:
+//		None
+//
+// Return Value:
+//		bool
+//
+//==========================================================================
+bool MainFrame::IsWithin(const std::vector<wxRect>& desktop, const wxRect& window) const
+{
+	for (const auto& clientArea : desktop)
+	{
+		if (IsWithin(clientArea, window))
+			return true;
+	}
+
+	return false;
+}
+
+//==========================================================================
+// Class:			MainFrame
+// Function:		IsWithin
+//
+// Description:		Returns true if a significant part of the window is within
+//					the specified area.
+//
+// Input Arguments:
+//		clientArea	= const wxRect&
+//		window		= const wxRect&
+//
+// Output Arguments:
+//		None
+//
+// Return Value:
+//		bool
+//
+//==========================================================================
+bool MainFrame::IsWithin(const wxRect& clientArea, const wxRect& window) const
+{
+	// "Significant portion" of our window will be 50% of the top 50% of the window
+	wxRect topLeft(window.x, window.y, window.width / 2, window.height / 2);
+	wxRect topRight(window.x + window.width / 2, window.y, window.width - window.width / 2, window.height / 2);
+	return clientArea.Contains(topLeft) || clientArea.Contains(topRight);
 }
