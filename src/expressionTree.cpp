@@ -817,7 +817,7 @@ size_t ExpressionTree::FindEndOfNextTerm(const wxString &s, const unsigned int &
 
 	if (minusEnd < plusEnd && start + minusEnd > 0 && NextIsOperator(s[start + minusEnd - 1]))
 	{
-		unsigned int nextMinus = s.Mid(start + minusEnd + 1).Find('-');
+		size_t nextMinus = s.Mid(start + minusEnd + 1).Find('-');
 		if (nextMinus != static_cast<size_t>(wxNOT_FOUND))
 			minusEnd += nextMinus + 1;
 		else

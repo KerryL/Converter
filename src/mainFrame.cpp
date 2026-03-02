@@ -477,17 +477,23 @@ void MainFrame::UpdateConversion()
 	outUnits->SetLabel(outUnit);
 
 	double outValue = converter.Convert(groupName, inUnit, outUnit, inValue);
-	int orderOfMagnitude(static_cast<int>(floor(log10(outValue))));
 
-	if (orderOfMagnitude < -3 ||// Value is very small
-		orderOfMagnitude > 6)// Value is very large
-		output->ChangeValue(wxString::Format(_T("%e"), outValue));
-		/*output->ChangeValue(wxString::Format(_T("%0.*e"),
-		ConvertMath::CountSignificantDigits(input->GetValue()) - 1, outValue));*/// FIXME:  Fix precision
+	if (outValue == 0.0)
+		output->ChangeValue(_T("0"));
 	else
-		output->ChangeValue(wxString::Format(_T("%f"), outValue));
-		/*output->ChangeValue(wxString::Format(_T("%0.*f"),
-		std::max<int>(0, ConvertMath::CountSignificantDigits(input->GetValue()) - orderOfMagnitude - 1), outValue));*/
+	{
+		int orderOfMagnitude(static_cast<int>(floor(log10(fabs(outValue)))));
+
+		if (orderOfMagnitude < -3 ||// Value is very small
+			orderOfMagnitude > 6)// Value is very large
+			output->ChangeValue(wxString::Format(_T("%e"), outValue));
+			/*output->ChangeValue(wxString::Format(_T("%0.*e"),
+			ConvertMath::CountSignificantDigits(input->GetValue()) - 1, outValue));*/// FIXME:  Fix precision
+		else
+			output->ChangeValue(wxString::Format(_T("%f"), outValue));
+			/*output->ChangeValue(wxString::Format(_T("%0.*f"),
+			std::max<int>(0, ConvertMath::CountSignificantDigits(input->GetValue()) - orderOfMagnitude - 1), outValue));*/
+	}
 }
 
 //==========================================================================
@@ -552,16 +558,6 @@ wxWindow* MainFrame::GetControlOnActiveTab(int id) const
 {
 	if (notebook->GetPageCount() == 0)
 		return nullptr;
-
-	wxString groupName;
-	for (size_t i = 0; i < notebook->GetPageCount(); i++)
-	{
-		if (notebook->GetCurrentPage() == notebook->GetPage(i))
-		{
-			groupName = notebook->GetPageText(i);
-			break;
-		}
-	}
 
 	return notebook->GetCurrentPage()->FindWindow(id);
 }

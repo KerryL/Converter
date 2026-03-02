@@ -89,7 +89,7 @@ bool XMLConversionFactors::Load()
 {
 	ResetForLoad();
 
-	if (!document->Load(fileName, xmlEncoding, wxXMLDOC_KEEP_WHITESPACE_NODES))
+	if (!document->Load(fileName, wxXMLDOC_KEEP_WHITESPACE_NODES))
 		return false;// Error message generated in wx call - don't create additional message
 
 	if (document->GetFileEncoding().Cmp(xmlEncoding) != 0)
@@ -256,13 +256,13 @@ bool XMLConversionFactors::ReadEquivNode(wxXmlNode *node, Equivalence &equiv)
 //==========================================================================
 bool XMLConversionFactors::DuplicateGroupsExist() const
 {
-	for (size_t i = 1; i < groups.size(); i++)
+	for (size_t i = 0; i < groups.size(); i++)
 	{
 		for (size_t j = i + 1; j < groups.size(); j++)
 		{
 			if (groups[i].name.CmpNoCase(groups[j].name) == 0)
 			{
-				DoErrorMessage(_T("Duplicate groups '") + groups[i - 1].name + _T("'"));
+				DoErrorMessage(_T("Duplicate groups '") + groups[i].name + _T("'"));
 				return true;
 			}
 		}
@@ -632,8 +632,6 @@ wxXmlNode* XMLConversionFactors::GetGroupNode(const wxString &name)
 
 	wxString errorMessage(_T("Could not find group node for '") + name + _T("' in XML file"));
 	throw std::runtime_error(std::string(errorMessage.mb_str()));
-
-	return NULL;
 }
 
 //==========================================================================

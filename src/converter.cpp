@@ -474,7 +474,7 @@ Converter::ConversionGraph::GraphNode*
 			return *i;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //==========================================================================
